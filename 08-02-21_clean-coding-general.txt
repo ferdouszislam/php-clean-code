@@ -1,0 +1,43 @@
+DRY: Don't Repeat Yourself - write repeated codes inside a function
+KISS: Keep It Simple Stupid - go for the stupidest solution first (linear search before binary search)
+
+
+Variable Naming Rules:
+- descriptive, easy to search, easy to pronounce. 
+- don't add type information, avoid encodings.
+- replace magic numbers with constants.
+
+
+Comments:
+- The code is the best documentation.
+- Use only to clarify code.
+
+
+Functions:
+- Place functions in the downward direction.
+- keep it simple and short, do only one thing inside a function. Rule of thumb: fits in your monitor.
+	- keep number of parameters small, 
+	- avoid passing booleans (are you trying to do more than one thing?) 
+	- use language provided library functions (sorting, searching, data structures etc.)
+- AVOID SIDE EFFECTS (changing variables passed by reference)
+
+
+Class:
+- use public, private, protected keywords.
+- keep small, and only for single purpose.
+- small number of instance variables.
+- super class should know nothing of it's sub classes.
+- keep utility variables and methods private.
+- avoid redundancy by inheriting from classes.
+
+
+Tests:
+- fast to execute.
+- should not depend on other tests.
+- one assert per test.
+- TEST DRIVEN DEVELOPMENT - writing unit tests while you are writing the code (or before writing new code).
+
+
+See Tommorrow:
+- Boy Scout Rule: Leave the campground cleaner than you found it.
+- S.O.L.I.D
