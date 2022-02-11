@@ -326,6 +326,7 @@ class Authentication{
 
 $user_authenticator = new Authentication('github');
 
+// making call to authentication function based on '$user_authentication->type' variable
 switch($user_authenticator->auth_type){
     case 'google':
         $user_authenticator->googleAuthentication();
@@ -359,7 +360,10 @@ class GithubAuthentication extends Authentication{
     }
 }
 
-$user_auth = new GoogleAuthentication();
+Authentication $user_auth = new GoogleAuthentication();  // for Google Authentication
+// for Github authentication we would initialize it as 'new GithubAuthentication()' 
+// and no changes would be required in the rest of the code
+
 $user_auth->authenticate();
 ```
 
@@ -448,6 +452,9 @@ class Character{
 
 **good:**
 ```php
+// 'Character' class only holds information 
+// and a separate 'CharacterAction' class holds implementions of action by the character
+
 class Character{
     private string $name;
     private float $healthPoints;
@@ -486,10 +493,12 @@ class CharacterAction{
 
 ### O: Open-Closed Principal
 
-Open for extension, closed for modification.
+Open for extension, closed for modification. Make update by extending existing classes and not by modifying them by adding new instance variables and/or method.
 
 **bad:**
 ```php
+// everytime we implement 'insert()' for a new database source we need to add new method to the Database class
+
 class Database{
 
     public function insertToFirebase(){
@@ -504,6 +513,8 @@ class Database{
 
 **good:**
 ```php
+// everytime we implement 'insert()' for a new database source we need to just extend the Database class and add the implementation.
+
 abstract class Database{
 
     abstract function insert();
@@ -526,7 +537,7 @@ class MySqlDatabase extends Database{
 
 ### L: Liskov Substitution Principal
 
-all super class instances should be completely replacable by their subclasses can be acquired through an additional level of abstraction (addding another higher level interface/abstract class) see the traditional "Rectangle-Square" example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
+All super class instances should be completely replacable by their subclasses. Generally, this can be achieved through an additional level of abstraction (addding another higher level interface/abstract class) see the traditional "Rectangle-Square" example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
 
 
 ### I: Interface Segragation
@@ -535,7 +546,7 @@ Keep interfaces short and meaningful, don't force the implementing classes to ov
 
 **bad:**
 ```php
-// character's who are only supposed to farm or attack or heal are forced to override the other methods
+// characters who are only supposed to farm or attack or heal would be forced to override the other methods
 interface Action{
     function farm();
     function attack();
@@ -545,6 +556,7 @@ interface Action{
 
 **good:**
 ```php
+// character classes can implement corresponding interfaces based on their defined abbilities
 interface VillagerAction{
     function farm();
 }
