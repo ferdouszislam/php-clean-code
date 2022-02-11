@@ -1,5 +1,5 @@
 # practice-php-clean-code
-Documentation on clean coding and demonstration of studied clean coding principals with PHP.
+Documentation on clean coding and demonstration of studied clean coding principals with PHP. The document contained in this repo are summarized from sources: https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75, https://github.com/jupeter/clean-code-php.
 
 
 ## 1. General Rules ***(can skip this section)***
