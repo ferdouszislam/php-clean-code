@@ -235,7 +235,7 @@
     // 3.3 Liskov Substitution Principal
     // all super class instances should be completely replacable by their subclasses
     // can be acquired through an additional level of abstraction (addding another higher level interface/abstract class)
-    // see example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
+    // see the traditional "Rectangle-Square" example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
 
 
 
@@ -267,6 +267,79 @@
 
 
     // 3.5 Dependency Injection
-    
+    /**
+     * (i) high-level modules should not depend on low-level modules. Both should depend on abstractions.
+     * (ii) abstractions should not depend upon details. Details should depend on abstractions.
+     * 
+     * the coding example below only contains demo for point (ii)
+     * 
+     */
+
+    // bad
+    abstract class Insect{
+
+        protected int $positionX, $positionY, $positionZ;
+
+        abstract function crawl();
+        abstract function fly();
+    }
+
+    class Cockroach extends Insect{
+
+        function crawl(){
+            // code for crawling
+        }
+
+        function fly(){
+            // code for flying
+        }
+    }
+
+    class Scorpion extends Insect{
+        
+        function crawl(){
+            // code for crawling
+        }
+
+        // scorpions can't fly!
+        // abstract class Insect contains too much details about insects (that they can crawl and fly)
+        function fly(){
+            // code for flying
+        }
+    }
+
+
+    // good (maybe...)
+    abstract class InsectClean{
+
+        protected int $positionX, $positionY, $positionZ;
+    }
+
+    interface Flyable{
+        function fly();
+    }
+
+    interface Crawlable{
+        function crawl();
+    }
+
+    class CockroachClean extends InsectClean implements Flyable, Crawlable{
+
+        function crawl(){
+            // code for crawling
+        }
+
+        function fly(){
+            // code for flying
+        }
+    } 
+
+    class ScorpionClean extends InsectClean implements Crawlable{
+
+        function crawl(){
+            // code for crawling
+        }
+    } 
+
 
 ?>
