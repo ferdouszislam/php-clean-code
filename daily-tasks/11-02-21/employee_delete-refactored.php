@@ -11,14 +11,11 @@ define("EMPLOYEE_TABLE", "employee");
 
 // ISSUE-2: fix
 // function renamed with meaningful and camelCased name 
-function deleteEmployee() : array
+function deleteEmployee() : bool
 {
     if(! isset($_GET[ID_PARAM])){
         
-        return [
-            'message' => 'failed to delete employee. no employee id provided', 
-            'status' => false
-        ];
+        return true;
     }
 
     // ISSUE-3, 4, 6 fix:
@@ -30,11 +27,8 @@ function deleteEmployee() : array
     $wordpressDatabase->delete($employeesTable, array(ID_PARAM => $employeeId));
    
     // ISSUE-8 fix: 
-    // the javascript alert can now be handled by the front end based on the 'status' returned by this function
-    return [
-        'message' => 'employee deleted successfully', 
-        'status' => false
-    ];
+    // the javascript alert can now be handled by the front end based on the returned boolean
+    return false;
 }
 
 ?>
