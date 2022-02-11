@@ -2,23 +2,23 @@
 Documentation on clean coding and demonstration of studied clean coding principals with PHP.
 
 
-## ***General Rules***
+## 1. General Rules ***(can skip this section)***
 
 DRY: Don't Repeat Yourself - write repeated codes inside functions.  
 KISS: Keep It Simple Stupid - go for the simplest solution first (try linear search before binary search).
 
 
-**Variable Naming Rules:**
+**1.1 Variable Naming Rules:**
 - descriptive, easy to search, easy to pronounce. 
 - don't add type information, avoid encodings.
 - replace magic numbers with constants.
 
 
-**Comments:**
+**1.2 Comments:**
 - The code is the best documentation.
 - Use only to clarify code.
 
-**Functions:**
+**1.3 Functions:**
 - Place functions in the downward direction.
 - keep it simple and short, do only one thing inside a function. Rule of thumb: whole function should fits in your monitor.
 	- keep number of parameters small (<=3), 
@@ -26,7 +26,7 @@ KISS: Keep It Simple Stupid - go for the simplest solution first (try linear sea
 	- use language provided library functions (sorting, searching, data structures etc.)
 - AVOID SIDE EFFECTS (changing variables passed by reference)
 
-**Class:**
+**1.4 Class:**
 - use public, private, protected keywords.
 - keep small, and only for single purpose.
 - small number of instance variables.
@@ -34,7 +34,7 @@ KISS: Keep It Simple Stupid - go for the simplest solution first (try linear sea
 - keep utility variables and methods private.
 - avoid redundancy by inheriting from classes.
 
-**Tests:**
+**1.5 Tests:**
 - fast to execute.
 - should not depend on other tests.
 - one assert per test.
@@ -42,29 +42,30 @@ KISS: Keep It Simple Stupid - go for the simplest solution first (try linear sea
 
 
 
-## Variables
+## 2. Variables
 
-### Make variable names clear, searchable. don't encode or minify.  
+### 2.1 Make variable names clear, searchable. don't encode or minify.  
 
 ```php
 $currTmptr = 24; // bad
 $currentTemparature = 24; // good
 ```
 
-### Use constants/enums instead of magic hardcoded numbers.
+### 2.2 Use constants/enums instead of magic hardcoded numbers.
 
 **bad:**
 ```php
 class User{
 
-    public $type = 'employee'; // what is a 'student'
+    public $type = 'employee'; // what is a 'employee', what are other types??
 }
 ```
 
 **good:**
 ```php
 class UserType{
-    
+// dedicated class to keep constant values of employee types
+
     public const ADMIN_USER = 'admin';
     public const EMPLOYEE_USER = 'employee';
     public const MANAGER_USER = 'manager';
@@ -78,9 +79,9 @@ class User{
 
 
 
-## Functions
+## 3. Functions
 
-### Return as early as possible.
+### 3.1 Return as early as possible.
 
 **bad:**
 ```php
@@ -91,7 +92,9 @@ function fooFunc($fooFlag){
     if(!$fooFlag) $returnValue = 0;
 
     else{
-        // very long and complex code
+        
+	// very long and complex code...
+	
         $returnValue = 100;
     }
 
@@ -107,7 +110,7 @@ function fooFunc($fooFlag){
 
     if(!$fooFlag) return 0;
 
-    // very long and complex code
+    // very long and complex code...    
     $returnValue = 100;
 
     return $returnValue;
@@ -115,7 +118,7 @@ function fooFunc($fooFlag){
 ```
 
 
-### Avoid deep nesting.
+### 3.2 Avoid deep nesting.
 
 **bad:**
 ```php
@@ -148,7 +151,24 @@ function isVacation($day, $week){
 ```
 
 
-### Avoid functional side effects.
+### 3.3 Avoid functional side effects.
+
+**bad:**
+```php
+class FooClass{
+    
+    public $fooVar=2;
+
+    public function __construct($fooVar) {
+        $this->fooVar = $fooVar;
+    }
+}
+
+function fooFunc($fooObj) {
+    
+    $fooObj->a = 5; // changes the value of the original '$fooObj' passed by reference
+}
+```
 
 **good:**
 ```php
@@ -158,10 +178,6 @@ class FooClass{
 
     public function __construct($fooVar) {
         $this->fooVar = $fooVar;
-    }
-    
-    public function __toString() {
-      return  $this->fooVar. "";
     }
 }
 
@@ -173,15 +189,10 @@ function fooFunc($fooObj) {
 
     $fooObj->a = 5;
 }
-
-$fooVar = new FooClass(2);
-echo "before calling function, foo = ".$fooVar."\n";
-fooFunc($fooVar);
-echo "after calling function, foo = ".$fooVar."\n";
 ```
 
 
-### Avoid passing flags as function arguments, functions should do only one thing.
+### 3.4 Avoid passing flags as function arguments, functions should do only one thing.
 
 **bad:**
 ```php
@@ -208,10 +219,13 @@ function processNotLeapYear($year) {
 ```
 
 
-### Do only ONE thing inside a function.
+### 3.5 Do only ONE thing inside a function.
 
 **bad:**
 ```php
+// the functions 'addAndMultiply()' and 'substractAndDivide()' were too much complicated 
+// to forcefully fit the implementation of 'applyFormula()' functions
+
 function addAndMultiply(int $x, int $y, int $z) {
 
     $result = $x + $y;
@@ -235,6 +249,8 @@ function applyFormula(int $x, int $y, int $z){
 
 **good:**
 ```php
+// instead create generalized functions to do one task only.
+
 function add(int $x, int $y){
     return $x+$y;
 }
@@ -260,7 +276,7 @@ function applyFormula(int $x, int $y, int $z){
 ```
 
 
-### specify function arguments variable types and/or return type.
+### 3.6 Specify function arguments variable types and/or return type.
 
 **bad:**
 ```php
@@ -283,9 +299,9 @@ function add(int $x, int $y): int {
 
 
 
-## OOP
+## 4. OOP
 
-### use polymorphism instead of type cheking
+### 4.1 Use polymorphism instead of type cheking
 
 **bad:**
 ```php
@@ -297,12 +313,12 @@ class Authentication{
         $this->auth_type = $auth_type;
     }
 
-    public function authenticateGoogle() {
+    public function googleAuthentication() {
         // logic for google authentication
         return true;
     }
 
-    public function authenticateGithub() {
+    public function githubAuthentication() {
         // logic for google authentication
         return true;
     }
@@ -312,11 +328,11 @@ $user_authenticator = new Authentication('github');
 
 switch($user_authenticator->auth_type){
     case 'google':
-        $user_authenticator->authenticateGoogle();
+        $user_authenticator->googleAuthentication();
         break;
 
     case 'github':
-        $user_authenticator->authenticateGithub();
+        $user_authenticator->githubAuthentication();
         break;
 
     default:
@@ -327,7 +343,7 @@ switch($user_authenticator->auth_type){
 **good:**
 ```php
 abstract class Authentication{
-    // implementation
+
     abstract function authenticate();
 }
 
@@ -348,7 +364,7 @@ $user_auth->authenticate();
 ```
 
 
-### Always enforce encapsulation
+### 4.2 Always enforce encapsulation
 
 **bad:**
 ```php
@@ -372,21 +388,27 @@ class Result{
         $this->mark = $mark;
     }
     public function penalize($penalizeMarks){
+    // method to access the instance variable $mark
+    // and decrease it to non-negative
+    
         $this->mark-=$penalizeMarks;
         $this->mark = max(Result::$MIN_MARK, $this->mark);
     }
     public function reward($bonusMarks){
-        $this->mark+=$bonusMarks;
+    // method to access the instance variable $mark
+    // and increase it within a fixed limit
+    
+	$this->mark+=$bonusMarks;
         $this->mark = min(Result::$MAX_MARK, $this->mark);
     }
 }
 
 $result = new Result(85);
-$result->penalize(5);
+$result->penalize(5); // penalize 5 marks for cheating
 ```
 
 
-## SOLID
+## 5. SOLID
 
 
 ### S: Single Responsibility
@@ -462,7 +484,7 @@ class CharacterAction{
 ```
 
 
-### O: Open-Close Principal
+### O: Open-Closed Principal
 
 Open for extension, closed for modification.
 
