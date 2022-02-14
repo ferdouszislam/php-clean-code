@@ -1,5 +1,9 @@
 # practice-php-clean-code
-Documentation on clean coding and demonstration of studied clean coding principals with PHP. The document contained in this repo are summarized from sources: https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75, https://github.com/jupeter/clean-code-php.
+Documentation on clean coding and demonstration of studied clean coding principals with PHP. 
+
+The content of this repo were summarized from sources: 
+- https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75 
+- https://github.com/jupeter/clean-code-php.
 
 
 ## 1. General Rules ***(can skip this section)***
@@ -196,7 +200,7 @@ function fooFunc($fooObj) {
 
 **bad:**
 ```php
-function processYear($year, $isYearLeap) {
+function processYear(int $year, bool $isYearLeap) {
 
     if($isYearLeap){
         // process leap year
@@ -209,11 +213,11 @@ function processYear($year, $isYearLeap) {
 
 **good:**
 ```php
-function processLeapYear($year) {
+function processLeapYear(int $year) {
     // process leap year
 }
 
-function processNotLeapYear($year) {
+function processNotLeapYear(int $year) {
     // process not leap year
 }
 ```
@@ -226,21 +230,21 @@ function processNotLeapYear($year) {
 // the functions 'addAndMultiply()' and 'substractAndDivide()' were too much complicated 
 // to forcefully fit the implementation of 'applyFormula()' functions
 
-function addAndMultiply(int $x, int $y, int $z) {
+function addAndMultiply(int $x, int $y, int $z) : int {
 
     $result = $x + $y;
     $result = $result*$z;
     return $result;
 }
 
-function substractAndDivide(int $x, int $y, int $z) {
+function substractAndDivide(int $x, int $y, int $z) : int {
 
     $result = $x - $y;
     $result = $result/$z;
     return $result;
 }
 
-function applyFormula(int $x, int $y, int $z){
+function applyFormula(int $x, int $y, int $z) : int {
 // apply formula (x+y)*z + (x-y)/z
     
     return addAndMultiply($x, $y, $z) + substractAndDivide($x, $y, $z);
@@ -251,20 +255,20 @@ function applyFormula(int $x, int $y, int $z){
 ```php
 // instead create generalized functions to do one task only.
 
-function add(int $x, int $y){
+function add(int $x, int $y) : int {
     return $x+$y;
 }
-function substract(int $x, int $y){
+function substract(int $x, int $y) : int {
     return $x-$y;
 }
-function multiply(int $x, int $y){
+function multiply(int $x, int $y) : int {
     return $x*$y;
 }
-function divide(int $x, int $y){
+function divide(int $x, int $y) : int {
     return $x/$y;
 }
 
-function applyFormula(int $x, int $y, int $z){
+function applyFormula(int $x, int $y, int $z) : int {
 // apply formula (x+y)*z + (x-y)/z
 
         $sumPart1 = multiply(add($x, $y), $z); // calculate (x+y)*z
@@ -280,7 +284,7 @@ function applyFormula(int $x, int $y, int $z){
 
 **bad:**
 ```php
-function add($x, $y) {
+function add($x, $y) : int {
 
     if (! is_numeric($x) || ! is_numeric($y)){
         throw new Exception('Must be a Number');
@@ -299,7 +303,7 @@ function add(int $x, int $y): int {
 
 
 
-## 4. OOP
+## 4. OOP: Object Oriented Programming
 
 ### 4.1 Use polymorphism instead of type cheking
 
@@ -497,7 +501,8 @@ Open for extension, closed for modification. Make update by extending existing c
 
 **bad:**
 ```php
-// everytime we implement 'insert()' for a new database source we need to add new method to the Database class
+// everytime we implement 'insert()' for a new database,
+// we need to add new method to the Database class
 
 class Database{
 
@@ -513,7 +518,8 @@ class Database{
 
 **good:**
 ```php
-// everytime we implement 'insert()' for a new database source we need to just extend the Database class and add the implementation.
+// everytime we implement 'insert()' for a new database source ,
+// we just need to extend the Database class and add the implementation there.
 
 abstract class Database{
 
