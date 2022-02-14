@@ -323,7 +323,7 @@ class Authentication{
     }
 
     public function githubAuthentication() {
-        // logic for google authentication
+        // logic for github authentication
         return true;
     }
 }
@@ -354,12 +354,14 @@ abstract class Authentication{
 
 class GoogleAuthentication extends Authentication{
     public function authenticate(){
+    	// logic for google authentication
         return true;
     }
 }
 
 class GithubAuthentication extends Authentication{
     public function authenticate(){
+    	// logic for github authentication
         return true;
     }
 }
