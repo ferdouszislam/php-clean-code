@@ -43,7 +43,7 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 - fast to execute.
 - should not depend on other tests.
 - one assert per test.
-- TEST DRIVEN DEVELOPMENT - writing unit tests while you are writing the code (or before writing new code).
+- TEST DRIVEN DEVELOPMENT - write tests first ->  code fails the tests -> write code to satisfy the tests -> repeat
 
 
 
@@ -90,11 +90,11 @@ class User{
 
 **bad:**
 ```php
-function fooFunc($fooFlag){
+function fooFunc(int $fooVar) : int {
 
     $returnValue = null;
 
-    if(!$fooFlag) $returnValue = 0;
+    if($fooVar%2 == 0) $returnValue = 0;
 
     else{
         
@@ -109,11 +109,11 @@ function fooFunc($fooFlag){
 
 **good:**
 ```php
-function fooFunc($fooFlag){
+function fooFunc(int $fooVar) : int {
 
     $returnValue = null;
 
-    if(!$fooFlag) return 0;
+    if($fooVar%2 == 0) return 0;
 
     // very long and complex code...    
     $returnValue = 100;
@@ -281,7 +281,7 @@ function applyFormula(int $x, int $y, int $z) : int {
 ```
 
 
-### 3.6 Specify function arguments variable types and/or return type.
+### 3.6 Specify function arguments variable types and/or return type. (when not defining generic functions that are intended to be type independent)
 
 **bad:**
 ```php
