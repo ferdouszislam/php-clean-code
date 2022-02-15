@@ -127,7 +127,7 @@ function fooFunc($fooFlag){
 
 **bad:**
 ```php
-function isVacation($day, $week){
+function isWeekend($day, $week){
 // weekend is Sundays every week and Saturdays on every alternating week
 
     if($week%2==0){
@@ -144,7 +144,7 @@ function isVacation($day, $week){
 
 **good:**
 ```php
-function isVacation($day, $week){
+function isWeekend($day, $week){
 // weekend is Sundays every week and Saturdays on every alternating week
 
     $weekendDays = ['Sunday'];
