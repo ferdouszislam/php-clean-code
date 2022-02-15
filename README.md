@@ -10,6 +10,7 @@ The content of this repo were summarized from sources:
 
 DRY: Don't Repeat Yourself - write repeated codes inside functions.  
 KISS: Keep It Simple Stupid - go for the simplest solution first (try linear search before binary search).
+Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who made the mess, tidy up as much as you can)
 
 
 **1.1 Variable Naming Rules:**
