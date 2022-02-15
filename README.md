@@ -6,7 +6,7 @@ The content of this repo were summarized from sources:
 - https://github.com/jupeter/clean-code-php.
 
 
-## 1. General Rules ***(can skip this section)***
+## 1. General Rules
 
 DRY: Don't Repeat Yourself - write repeated codes inside functions.  
 KISS: Keep It Simple Stupid - go for the simplest solution first (try linear search before binary search).  
@@ -14,6 +14,7 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 
 
 **1.1 Variable Naming Rules:**
+- Use nouns to name variables.
 - descriptive, easy to search, easy to pronounce. 
 - don't add type information, avoid encodings.
 - replace magic numbers with constants.
@@ -24,6 +25,7 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 - Use only to clarify code.
 
 **1.3 Functions:**
+- Use verbs to name functions.
 - Place functions in the downward direction.
 - keep it simple and short, do only one thing inside a function. Rule of thumb: whole function should fits in your monitor.
 	- keep number of parameters small (<=3), 
@@ -48,6 +50,10 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 
 
 ## 2. Variables
+
+### Naming
+- Can use camelCase, StudlyCaps/PascalCase or, snake_case for nming, but consistently use only one.
+- Name constant variables in all capital.
 
 ### 2.1 Make variable names clear, searchable. don't encode or minify.  
 
@@ -85,6 +91,57 @@ class User{
 
 
 ## 3. Functions
+
+### General Rules
+- name should be in camelCase.
+- opening and closing braces must be on their own line
+- arguments with default values go last.
+```php
+function fooBarBaz($arg1, &$arg2, $arg3 = [])
+{
+    // function body
+}
+```
+- when splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
+```php
+function aVeryLongFunctionName(
+    int $arg1,
+    &$arg2,
+    array $arg3 = []
+) {
+    // implementation
+}
+```  
+- When specifying return types, put one space after and no space before the colon. 
+- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
+- For nullable type declaration add `?` before type keyword without any space
+```php
+function functionName(int $arg1, $arg2): string
+{
+    return 'foo';
+}
+
+function multilineFunction(
+    string $foo,
+    string $bar,
+    int $baz
+): string {
+    return 'foo';
+}
+
+function functionWithNullableType(?string $arg1): ?string
+{
+    return 'foo';
+}
+```
+- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation all arguments.
+```php
+$fooBar(
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+);
+```
 
 ### 3.1 Return as early as possible.
 
@@ -152,47 +209,6 @@ function isWeekend($day, $week){
 
     if($week%2==0) return in_array($day, $weekendDays);
     else return in_array($day, $alternateWeekendDays);
-}
-```
-
-
-### 3.3 Avoid functional side effects.
-
-**bad:**
-```php
-class FooClass{
-    
-    public $fooVar=2;
-
-    public function __construct($fooVar) {
-        $this->fooVar = $fooVar;
-    }
-}
-
-function fooFunc($fooObj) {
-    
-    $fooObj->a = 5; // changes the value of the original '$fooObj' passed by reference
-}
-```
-
-**good:**
-```php
-class FooClass{
-    
-    public $fooVar=2;
-
-    public function __construct($fooVar) {
-        $this->fooVar = $fooVar;
-    }
-}
-
-function fooFunc($fooObj) {
-    
-    // create a clone to avoid changing the original object
-    // which was passed by reference
-    $fooObj = clone $fooObj;
-
-    $fooObj->a = 5;
 }
 ```
 
@@ -285,7 +301,7 @@ function applyFormula(int $x, int $y, int $z) : int {
 
 **bad:**
 ```php
-function add($x, $y) : int {
+function addNumbers($x, $y) : int {
 
     if (! is_numeric($x) || ! is_numeric($y)){
         throw new Exception('Must be a Number');
@@ -297,85 +313,98 @@ function add($x, $y) : int {
 
 **good:**
 ```php
-function add(int $x, int $y): int {
+function addNumbers(int $x, int $y): int {
     return $x + $y;
 }
 ```
 
 
 
-## 4. OOP: Object Oriented Programming
+## 4. Classes / OOP: Object Oriented Programming
 
-### 4.1 Use polymorphism instead of type cheking
+### 4.1 Naming
+- Class names should be in 'StudlyCaps/PascalCase'.
+- Property/variable names can be in either camelCase, StudlyCaps/PascalCase or, snake_case. Constant variable names should be in all caps.
+- Method names can be in either camelCase, StudlyCaps/PascalCase or, snake_case.
+- Opening and closing brace must be on their own separate line.
 
-**bad:**
+Sample Class:
+
 ```php
-class Authentication{
-        
-    public $auth_type;
+class Foo
+{
+    public const $FOO_CONST = 1000;
+    
+    private $fooVar;
 
-    public function __construct($auth_type){
-        $this->auth_type = $auth_type;
+    public function __construct($fooVar) {
+        $this->fooVar = $fooVar;
     }
 
-    public function googleAuthentication() {
-        // logic for google authentication
-        return true;
+    public getFooVar() {
+        return $this->fooVar;
     }
 
-    public function githubAuthentication() {
-        // logic for github authentication
-        return true;
+    public setFooVar($fooVar) {
+        $this->fooVar = $fooVar;
     }
-}
-
-$user_authenticator = new Authentication('github');
-
-// making call to authentication function based on '$user_authentication->type' variable
-switch($user_authenticator->auth_type){
-    case 'google':
-        $user_authenticator->googleAuthentication();
-        break;
-
-    case 'github':
-        $user_authenticator->githubAuthentication();
-        break;
-
-    default:
-        throw new Exception('unknon auth type='.$user_authenticator->auth_type);
 }
 ```
 
-**good:**
+- Keep `extends` and `implements` on the same line as class name. Multiple `implements` can be spread accross multiple lines, with one interface per line.  
 ```php
-abstract class Authentication{
-
-    abstract function authenticate();
+class FooClass extends FooParent implements
+    FooInterface1
+    FooInterface2
+{
+    // implementation
 }
+```
+- Put `abstract`, `final` keywords before and `static` keyword after visibility declaration keywords.
+```php
+abstract class ClassName
+{
+    protected static $foo;
 
-class GoogleAuthentication extends Authentication{
-    public function authenticate(){
-    	// logic for google authentication
-        return true;
+    abstract protected function bar();
+
+    final public static function baz()
+    {
+        // method body
     }
 }
-
-class GithubAuthentication extends Authentication{
-    public function authenticate(){
-    	// logic for github authentication
-        return true;
-    }
-}
-
-Authentication $user_auth = new GoogleAuthentication();  // for Google Authentication
-// for Github authentication we would initialize it as 'new GithubAuthentication()' 
-// and no changes would be required in the rest of the code
-
-$user_auth->authenticate();
 ```
 
+### 4.2 Keep classes in a php file by itself, named same as the class name.
 
-### 4.2 Always enforce encapsulation
+### 4.4 Properties/Class Variables 
+- Always declare visibility: `public`, `private`, `protected`.
+- One property declaration per line.
+```php
+class FooClass
+{
+    public const $FOO_BAR = 1000;    
+
+    public $foo = null;
+    public static int $bar = 0;
+}
+```
+
+### 4.5 Methods/Class Functions 
+- Always declare visibility: `public`, `private` or, `protected`).
+- Opening and closing braces go on their separate single lines.
+- No space after opening or before closing braces.
+```php
+class ClassName
+{
+    public function fooBar($arg1, &$arg2, $arg3 = [])
+    {
+        // method body
+    }
+}
+```
+
+### 4.3 Always enforce encapsulation
 
 **bad:**
 ```php
@@ -419,239 +448,123 @@ $result->penalize(5); // penalize 5 marks for cheating
 ```
 
 
-## 5. SOLID
+
+# 5. Misc
 
 
-### S: Single Responsibility
+### 5.1 Use only either of these two tags: `<?php ?>` or `<?= ?>`. But be consistent.
 
-One class should be responsible for ONE and ONLY ONE thing.
+### 5.2 A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. 
+
+"Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file.  
 
 **bad:**
 ```php
-// Character class stores information of a character and also codes regarding actions made by the character
-class Character{
-    private string $name;
-    private float $healthPoints;
-    private int $positionX, $positionY;
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
 
-    public function __construct(
-        $name='temp_player', 
-        $healthPoints=100.00, 
-        $positionX=0,
-        $positionY=0)
-    {
-            $this->name = $name;
-            $this->healthPoints = $healthPoints;
-            $this->positionX = $positionX;
-            $this->positionY = $positionY;   
-    }
-    
-    public function fly() {
-        $this->positionX+=5;
-        $this->positionY+=5;
-    }
+// side effect: loads a file
+include "file.php";
 
-    public function sleep() {
-        $this->healthPoints+=100.00;
-    }
+// side effect: generates output
+echo "<html>\n";
+
+// function declaration
+function foo() {
+    // body
 }
+```
+
+**good:**  
+Stored inside 'declarations.php'
+```php
+function foo() {
+    // body
+}
+```
+
+Stored inside 'side_effects.php'
+```php
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
+
+// side effect: loads a file
+include "file.php";
+
+// side effect: generates output
+echo "<html>\n";
+```
+
+### 5.3 Files 
+- All PHP files MUST end with a non-blank line. 
+- The closing `?>` tag MUST be omitted from files containing only PHP.
+
+
+### 5.4 Lines
+- Lines should not be more than 80 characters. Split lines if they exceed the limit.
+- No more than one statement per line.
+- No trailing white spaces at end of line.
+- Blank lines can be added to indicate block of code with certain purpose.
+- Must use 4 space indentation and not tabs.
+
+### 5.5 Structure of a .php file
+The below items should be in sequence inside php code files.
+- Opening <?php tag.
+- File-level docblock.
+- One or more declare statements.
+- The namespace declaration of the file.
+- One or more class-based use import statements.
+- One or more function-based use import statements.
+- One or more constant-based use import statements.
+- The remainder of the code in the file.
+
+**Sample PHP code file:**
+```php
+<?php
+
+/**
+ * This file contains an example of coding styles.
+ */
+
+declare(strict_types=1);
+
+namespace Vendor\Package;
+
+use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
+use Vendor\Package\SomeNamespace\ClassD as D;
+use Vendor\Package\AnotherNamespace\ClassE as E;
+
+use function Vendor\Package\{functionA, functionB, functionC};
+use function Another\Vendor\functionD;
+
+use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
+use const Another\Vendor\CONSTANT_D;
+
+/**
+ * FooBar is an example class.
+ */
+class FooBar
+{
+    // ... additional PHP code ...
+}
+```
+
+### Maximum allowed depth for Compound namespaces is no more than two.
+
+**bad:**
+```php
+use Vendor\Package\SomeNamespace\{
+    SubnamespaceOne\AnotherNamespace\ClassA,
+    SubnamespaceOne\ClassB,
+    ClassZ,
+};
 ```
 
 **good:**
 ```php
-// 'Character' class only holds information 
-// and a separate 'CharacterAction' class holds implementions of action by the character
-
-class Character{
-    private string $name;
-    private float $healthPoints;
-    private int $positionX, $positionY;
-
-    public function __construct(
-        $name='temp_player', 
-        $healthPoints=100.00, 
-        $positionX=0,
-        $positionY=0)
-    {
-        $this->name = $name;
-        $this->healthPoints = $healthPoints;
-        $this->positionX = $positionX;
-        $this->positionY = $positionY;   
-    }
-}
-
-class CharacterAction{
-
-    public function fly(Character $character) : Character
-    {
-        $character->positionX+=5;
-        $character->positionY+=5;
-        return $character;
-    }
-
-    public function sleep(Character $character) : Character
-    {
-        $character->healthPoints+=100.00;      
-        return $character;
-    }
-}
-```
-
-
-### O: Open-Closed Principal
-
-Open for extension, closed for modification. Make update by extending existing classes and not by modifying them by adding new instance variables and/or method.
-
-**bad:**
-```php
-// everytime we implement 'insert()' for a new database,
-// we need to add new method to the Database class
-
-class Database{
-
-    public function insertToFirebase(){
-        // implementation
-    }
-    
-    public function insertToMysql(){
-        // implementation
-    }
-}
-```
-
-**good:**
-```php
-// everytime we implement 'insert()' for a new database source ,
-// we just need to extend the Database class and add the implementation there.
-
-abstract class Database{
-
-    abstract function insert();
-}
-
-class FirebaseDatabase extends Database{
-    // overriden method
-    function insert(){
-        // implementation
-    }
-}
-
-class MySqlDatabase extends Database{
-    // overriden method
-    function insert(){
-        // implementation
-    }
-}
-```
-
-### L: Liskov Substitution Principal
-
-All super class instances should be completely replacable by their subclasses. Generally, this can be achieved through an additional level of abstraction (addding another higher level interface/abstract class) see the traditional "Rectangle-Square" example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
-
-
-### I: Interface Segragation
-
-Keep interfaces short and meaningful, don't force the implementing classes to override irrelevant methods.
-
-**bad:**
-```php
-// characters who are only supposed to farm or attack or heal would be forced to override the other methods
-interface Action{
-    function farm();
-    function attack();
-    function heal();
-}
-```
-
-**good:**
-```php
-// character classes can implement corresponding interfaces based on their defined abbilities
-interface VillagerAction{
-    function farm();
-}
-
-interface AttackerAction{
-    function attack();
-}
-
-interface HealerAction{
-    function heal();
-}
-```
-
-
-### D: Dependency Inversion
-
-- high-level modules should not depend on low-level modules. Both should depend on abstractions.
-- abstractions should not depend upon details. Details should depend on abstractions. 
-
-***The coding example below only contains demo for point (ii)***
-
-**bad:**
-```php
-abstract class Insect{
-
-    protected int $positionX, $positionY, $positionZ;
-
-    abstract function crawl();
-    abstract function fly();
-}
-
-class Cockroach extends Insect{
-
-    function crawl(){
-        // code for crawling
-    }
-
-    function fly(){
-        // code for flying
-    }
-}
-
-class Scorpion extends Insect{
-    
-    function crawl(){
-        // code for crawling
-    }
-
-    // scorpions can't fly!
-    // abstract class Insect contains too much details about insects (that they can crawl and fly)
-    function fly(){
-        // code for flying
-    }
-}
-```
-
-**good (maybe...):**
-```php
-abstract class Insect{
-
-    protected int $positionX, $positionY, $positionZ;
-}
-
-interface Flyable{
-    function fly();
-}
-
-interface Crawlable{
-    function crawl();
-}
-
-class Cockroach extends Insect implements Flyable, Crawlable{
-
-    function crawl(){
-        // code for crawling
-    }
-
-    function fly(){
-        // code for flying
-    }
-} 
-
-class Scorpion extends Insect implements Crawlable{
-
-    function crawl(){
-        // code for crawling
-    }
-}
+use Vendor\Package\SomeNamespace\{
+    SubnamespaceOne\ClassB,
+    ClassZ,
+};
+use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
 ```
