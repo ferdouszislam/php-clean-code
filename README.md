@@ -1,12 +1,8 @@
 # practice-php-clean-code
 Documentation on clean coding and demonstration of studied clean coding principals with PHP. 
 
-The content of this repo were summarized from sources: 
-- https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75 
-- https://github.com/jupeter/clean-code-php.
 
-
-## 1. General Rules ***(can skip this section)***
+## 1. General Rules
 
 DRY: Don't Repeat Yourself - write repeated codes inside functions.  
 KISS: Keep It Simple Stupid - go for the simplest solution first (try linear search before binary search).  
@@ -14,6 +10,7 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 
 
 **1.1 Variable Naming Rules:**
+- Use nouns to name variables.
 - descriptive, easy to search, easy to pronounce. 
 - don't add type information, avoid encodings.
 - replace magic numbers with constants.
@@ -24,6 +21,7 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 - Use only to clarify code.
 
 **1.3 Functions:**
+- Use verbs to name functions.
 - Place functions in the downward direction.
 - keep it simple and short, do only one thing inside a function. Rule of thumb: whole function should fits in your monitor.
 	- keep number of parameters small (<=3), 
@@ -48,58 +46,256 @@ Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who m
 
 
 ## 2. Variables
-
-### 2.1 Make variable names clear, searchable. don't encode or minify.  
+- Can use camelCase, StudlyCaps/PascalCase or, snake_case for nming, but consistently use only one.
+```php
+$camelCase = 'camelCase';
+$PascalCase = 'PascalCase';
+$snake_case = 'snake_case';
+```
+- Name constant variables in all capital.
+```php
+const CONST_VAR = 'constant';
+```
+- Make variable names clear, searchable. don't encode or minify.  
 
 ```php
 $currTmptr = 24; // bad
 $currentTemparature = 24; // good
 ```
 
-### 2.2 Use constants/enums instead of magic hardcoded numbers.
 
-**bad:**
+## 3. Conditional Statements
+
+### 3.1 `if`, `elseif`, `else`
+- There MUST be one space after the control structure keyword
+- There MUST NOT be a space after the opening parenthesis
+- There MUST NOT be a space before the closing parenthesis
+- There MUST be one space between the closing parenthesis and the opening brace
+- The structure body MUST be indented once
+- The body MUST be on the next line after the opening brace
+- The closing brace MUST be on the next line after the body
 ```php
-class User{
-
-    public $type = 'employee'; // what is a 'employee', what are other types??
+if ($expr1) {
+    // if body
+} elseif ($expr2) {
+    // elseif body
+} else {
+    // else body;
 }
 ```
 
-**good:**
 ```php
-class UserType{
-// dedicated class to keep constant values of employee types
+// with multi-line conditions
+if (
+    $expr1
+    && $expr2
+) {
+    // if body
+} elseif (
+    $expr3
+    && $expr4
+) {
+    // elseif body
+}
+```
 
-    public const ADMIN_USER = 'admin';
-    public const EMPLOYEE_USER = 'employee';
-    public const MANAGER_USER = 'manager';
+### 3.2 `switch`, `case`
+
+- General Structure,
+```php
+switch ($expr) {
+    case 0:
+        echo 'First case, with a break';
+        break;
+    case 1:
+        echo 'Second case, which falls through';
+        // no break
+    case 2:
+    case 3:
+    case 4:
+        echo 'Third case, return instead of break';
+        return;
+    default:
+        echo 'Default case';
+        break;
+}
+```
+```php
+// with multi-line conditions
+switch (
+    $expr1
+    && $expr2
+) {
+    // structure body
+}
+```
+
+### 3.3 `for`
+```php
+for ($i = 0; $i < 10; $i++) {
+    // for body
+}
+```
+```php
+for (
+    $i = 0;
+    $i < 10;
+    $i++
+) {
+    // for body
+}
+```
+
+### 3.4 `foreach`
+```php
+foreach ($iterable as $key => $value) {
+    // foreach body
+}
+```
+
+### 3.5 `while`
+```php
+while ($expr) {
+    // structure body
 }
 
-class User{
+// with multi-line conditions
+while (
+    $expr1
+    && $expr2
+) {
+    // structure body
+}
+```
 
-    public $type = UserType::ADMIN_USER;
+### 3.6 `try`, `catch`, `finally`
+```php
+try {
+    // try body
+} catch (FirstThrowableType $e) {
+    // catch body
+} catch (OtherThrowableType | AnotherThrowableType $e) {
+    // catch body
+} finally {
+    // finally body
+}
+```
+
+### 3.7 `do while`
+```php
+do {
+    // structure body;
+} while ($expr);
+
+// with multi-line conditions
+do {
+    // structure body;
+} while (
+    $expr1
+    && $expr2
+);
+```
+
+## 4. Operators
+
+### 4.1 Unary Operators
+- The increment/decrement operators MUST NOT have any space between the operator and operand.
+```php
+$i++;
+++$j;
+```
+- Type casting operators MUST NOT have any space within the parentheses.
+```php
+$intValue = (int) $input;
+```
+
+### 4.2 Binary Operators
+- All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space:
+```php
+if ($a === $b) {
+    $foo = $bar ?? $a ?? $b;
+} elseif ($a > $b) {
+    $foo = $a + $b * $c;
 }
 ```
 
 
+### 4.3 Ternary Operators
+- The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters:
+```php
+$variable = $foo ? 'foo' : 'bar';
+```
 
-## 3. Functions
 
-### 3.1 Return as early as possible.
+## 5. Functions
+
+### 5.1 Formatting Rules
+- name should be in camelCase.
+- opening and closing braces must be on their own line
+- arguments with default values go last.
+```php
+function fooBarBaz($arg1, &$arg2, $arg3 = [])
+{
+    // function body
+}
+```
+- when splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
+```php
+function aVeryLongFunctionName(
+    int $arg1,
+    &$arg2,
+    array $arg3 = []
+) {
+    // implementation
+}
+```  
+- When specifying return types, put one space after and no space before the colon. 
+- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
+- For nullable type declaration add `?` before type keyword without any space
+```php
+function functionName(int $arg1, $arg2): string
+{
+    return 'foo';
+}
+
+function multilineFunction(
+    string $foo,
+    string $bar,
+    int $baz
+): string {
+    return 'foo';
+}
+
+function functionWithNullableType(?string $arg1): ?string
+{
+    return 'foo';
+}
+```
+- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation all arguments.
+```php
+$fooBar(
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+);
+```
+### 5.2 Design Suggestions
+
+- Return as early as possible.
 
 **bad:**
 ```php
-function fooFunc(int $fooVar) : int {
+function fooFunc(int $fooVar): int
+{
 
     $returnValue = null;
 
-    if($fooVar%2 == 0) $returnValue = 0;
+    if ($fooVar % 2 == 0) $returnValue = 0;
 
-    else{
-        
-	// very long and complex code...
-	
+    else {
+
+        // very long and complex code...
+
         $returnValue = 100;
     }
 
@@ -109,11 +305,12 @@ function fooFunc(int $fooVar) : int {
 
 **good:**
 ```php
-function fooFunc(int $fooVar) : int {
+function fooFunc(int $fooVar): int
+{
 
     $returnValue = null;
 
-    if($fooVar%2 == 0) return 0;
+    if ($fooVar % 2 == 0) return 0;
 
     // very long and complex code...    
     $returnValue = 100;
@@ -123,20 +320,19 @@ function fooFunc(int $fooVar) : int {
 ```
 
 
-### 3.2 Avoid deep nesting.
+- Avoid deep nesting.
 
 **bad:**
 ```php
-function isWeekend($day, $week){
-// weekend is Sundays every week and Saturdays on every alternating week
+function isWeekend($day, $week)
+{
+    // weekend is Sundays every week and Saturdays on every alternating week
 
-    if($week%2==0){
-        if($day == 'Sunday' || $day == 'Saturday') return true;
+    if ($week % 2 == 0) {
+        if ($day == 'Sunday' || $day == 'Saturday') return true;
         else return false;
-    }    
-
-    else{
-        if($day == 'Sunday') return true;
+    } else {
+        if ($day == 'Sunday') return true;
         else return false;
     }
 }
@@ -144,69 +340,29 @@ function isWeekend($day, $week){
 
 **good:**
 ```php
-function isWeekend($day, $week){
-// weekend is Sundays every week and Saturdays on every alternating week
+function isWeekend($day, $week)
+{
+    // weekend is Sundays every week and Saturdays on every alternating week
 
     $weekendDays = ['Sunday'];
     $alternateWeekendDays = ['Sunday', 'Saturday'];
 
-    if($week%2==0) return in_array($day, $weekendDays);
+    if ($week % 2 == 0) return in_array($day, $weekendDays);
     else return in_array($day, $alternateWeekendDays);
 }
 ```
 
 
-### 3.3 Avoid functional side effects.
+- Avoid passing flags as function arguments, functions should do only one thing.
 
 **bad:**
 ```php
-class FooClass{
-    
-    public $fooVar=2;
+function processYear(int $year, bool $isYearLeap)
+{
 
-    public function __construct($fooVar) {
-        $this->fooVar = $fooVar;
-    }
-}
-
-function fooFunc($fooObj) {
-    
-    $fooObj->a = 5; // changes the value of the original '$fooObj' passed by reference
-}
-```
-
-**good:**
-```php
-class FooClass{
-    
-    public $fooVar=2;
-
-    public function __construct($fooVar) {
-        $this->fooVar = $fooVar;
-    }
-}
-
-function fooFunc($fooObj) {
-    
-    // create a clone to avoid changing the original object
-    // which was passed by reference
-    $fooObj = clone $fooObj;
-
-    $fooObj->a = 5;
-}
-```
-
-
-### 3.4 Avoid passing flags as function arguments, functions should do only one thing.
-
-**bad:**
-```php
-function processYear(int $year, bool $isYearLeap) {
-
-    if($isYearLeap){
+    if ($isYearLeap) {
         // process leap year
-    }
-    else{
+    } else {
         // process not leap year
     }
 }
@@ -214,40 +370,45 @@ function processYear(int $year, bool $isYearLeap) {
 
 **good:**
 ```php
-function processLeapYear(int $year) {
+function processLeapYear(int $year)
+{
     // process leap year
 }
 
-function processNotLeapYear(int $year) {
+function processNotLeapYear(int $year)
+{
     // process not leap year
 }
 ```
 
 
-### 3.5 Do only ONE thing inside a function.
+- Do only ONE thing inside a function.
 
 **bad:**
 ```php
 // the functions 'addAndMultiply()' and 'substractAndDivide()' were too much complicated 
 // to forcefully fit the implementation of 'applyFormula()' functions
 
-function addAndMultiply(int $x, int $y, int $z) : int {
+function addAndMultiply(int $x, int $y, int $z): int
+{
 
     $result = $x + $y;
-    $result = $result*$z;
+    $result = $result * $z;
     return $result;
 }
 
-function substractAndDivide(int $x, int $y, int $z) : int {
+function substractAndDivide(int $x, int $y, int $z): int
+{
 
     $result = $x - $y;
-    $result = $result/$z;
+    $result = $result / $z;
     return $result;
 }
 
-function applyFormula(int $x, int $y, int $z) : int {
-// apply formula (x+y)*z + (x-y)/z
-    
+function applyFormula(int $x, int $y, int $z): int
+{
+    // apply formula (x+y)*z + (x-y)/z
+
     return addAndMultiply($x, $y, $z) + substractAndDivide($x, $y, $z);
 }
 ```
@@ -256,38 +417,44 @@ function applyFormula(int $x, int $y, int $z) : int {
 ```php
 // instead create generalized functions to do one task only.
 
-function add(int $x, int $y) : int {
-    return $x+$y;
+function add(int $x, int $y): int
+{
+    return $x + $y;
 }
-function substract(int $x, int $y) : int {
-    return $x-$y;
+function substract(int $x, int $y): int
+{
+    return $x - $y;
 }
-function multiply(int $x, int $y) : int {
-    return $x*$y;
+function multiply(int $x, int $y): int
+{
+    return $x * $y;
 }
-function divide(int $x, int $y) : int {
-    return $x/$y;
+function divide(int $x, int $y): int
+{
+    return $x / $y;
 }
 
-function applyFormula(int $x, int $y, int $z) : int {
-// apply formula (x+y)*z + (x-y)/z
+function applyFormula(int $x, int $y, int $z): int
+{
+    // apply formula (x+y)*z + (x-y)/z
 
-        $sumPart1 = multiply(add($x, $y), $z); // calculate (x+y)*z
-        $sumPart2 = divide(substract($x, $y), $z); // calculate (x+y)*z
-        $result = add($sumPart1, $sumPart2);
-        
-        return $result;
+    $sumPart1 = multiply(add($x, $y), $z); // calculate (x+y)*z
+    $sumPart2 = divide(substract($x, $y), $z); // calculate (x+y)*z
+    $result = add($sumPart1, $sumPart2);
+
+    return $result;
 }
 ```
 
 
-### 3.6 Specify function arguments variable types and/or return type. (when not defining generic functions that are intended to be type independent)
+- Specify function arguments variable types and/or return type. (when not defining generic functions that are intended to be type independent)
 
 **bad:**
 ```php
-function add($x, $y) : int {
+function addNumbers($x, $y): int
+{
 
-    if (! is_numeric($x) || ! is_numeric($y)){
+    if (!is_numeric($x) || !is_numeric($y)) {
         throw new Exception('Must be a Number');
     }
 
@@ -297,42 +464,203 @@ function add($x, $y) : int {
 
 **good:**
 ```php
-function add(int $x, int $y): int {
+function addNumbers(int $x, int $y): int
+{
     return $x + $y;
 }
 ```
 
 
+## 6. Classes / OOP: Object Oriented Programming
 
-## 4. OOP: Object Oriented Programming
+### 6.1 Formatting Rules
+- Keep classes in a php file by itself, named same as the class name.
+- Class names should be in 'StudlyCaps/PascalCase'.
+- Property/variable names can be in either camelCase, StudlyCaps/PascalCase or, snake_case. Constant variable names should be in all caps.
+- Method names can be in either camelCase, StudlyCaps/PascalCase or, snake_case.
+- Opening and closing brace must be on their own separate line.
 
-### 4.1 Use polymorphism instead of type cheking
+Sample Class:
+
+```php
+class Foo
+{
+    public const FOO_CONST = 1000;
+
+    private $fooVar;
+
+    public function __construct($fooVar)
+    {
+        $this->fooVar = $fooVar;
+    }
+
+    public function getFooVar()
+    {
+        return $this->fooVar;
+    }
+
+    public function setFooVar($fooVar)
+    {
+        $this->fooVar = $fooVar;
+    }
+}
+```
+
+- Keep `extends` and `implements` on the same line as class name. Multiple `implements` can be spread accross multiple lines, with one interface per line.  
+```php
+class FooClass extends FooParent implements
+    FooInterface1
+    FooInterface2
+{
+    // implementation
+}
+```
+- Put `abstract`, `final` keywords before and `static` keyword after visibility declaration keywords.
+```php
+abstract class ClassName
+{
+    protected static $foo;
+
+    abstract protected function bar();
+
+    final public static function baz()
+    {
+        // method body
+    }
+}
+```
+
+- Inner Classes
+```php
+// Brace on the same line
+$instance = new class extends \Foo implements \HandleableInterface {
+    // Class content
+};
+
+// Brace on the next line
+$instance = new class extends \Foo implements
+    \ArrayAccess,
+    \Countable,
+    \Serializable
+{
+    // Class content
+};
+```
+
+### 6.2 Design Suggestions
+- Always enforce encapsulation
 
 **bad:**
 ```php
-class Authentication{
-        
+class Result
+{
+    public $mark;
+}
+
+// code from client script
+$result = new Result();
+$result->mark -= 10; // penalize 10 marks for cheating
+```
+
+**good:**
+```php
+class Result
+{
+
+    private static $MAX_MARK = 100;
+    private static $MIN_MARK = 0;
+
+    private $mark;
+
+    public function __construct($mark)
+    {
+        $this->mark = $mark;
+    }
+    public function penalize($penalizeMarks)
+    {
+        // method to access the instance variable $mark
+        // and decrease it to non-negative
+
+        $this->mark -= $penalizeMarks;
+        $this->mark = max(Result::$MIN_MARK, $this->mark);
+    }
+    public function reward($bonusMarks)
+    {
+        // method to access the instance variable $mark
+        // and increase it within a fixed limit
+
+        $this->mark += $bonusMarks;
+        $this->mark = min(Result::$MAX_MARK, $this->mark);
+    }
+}
+
+// code from client script
+$result = new Result(85);
+$result->penalize(5); // penalize 5 marks for cheating
+```
+
+- Use constants/enums instead of magic hardcoded numbers.
+
+**bad:**
+```php
+class User
+{
+
+    public $type = 'employee'; // what is a 'employee', what are other types??
+}
+```
+
+**good:**
+```php
+class UserType
+{
+    // dedicated class to keep constant values of employee types
+
+    public const ADMIN_USER = 'admin';
+    public const EMPLOYEE_USER = 'employee';
+    public const MANAGER_USER = 'manager';
+}
+
+class User
+{
+
+    public $type = UserType::ADMIN_USER;
+}
+```
+
+- Use polymorphism instead of type cheking
+
+**bad:**
+```php
+class Authentication
+{
+
     public $auth_type;
 
-    public function __construct($auth_type){
+    public function __construct($auth_type)
+    {
         $this->auth_type = $auth_type;
     }
 
-    public function googleAuthentication() {
+    public function googleAuthentication()
+    {
         // logic for google authentication
         return true;
     }
 
-    public function githubAuthentication() {
+    public function githubAuthentication()
+    {
         // logic for github authentication
         return true;
     }
 }
 
+
+// code from client script
 $user_authenticator = new Authentication('github');
 
 // making call to authentication function based on '$user_authentication->type' variable
-switch($user_authenticator->auth_type){
+switch ($user_authenticator->auth_type) {
     case 'google':
         $user_authenticator->googleAuthentication();
         break;
@@ -342,32 +670,38 @@ switch($user_authenticator->auth_type){
         break;
 
     default:
-        throw new Exception('unknon auth type='.$user_authenticator->auth_type);
+        throw new Exception('unknon auth type=' . $user_authenticator->auth_type);
 }
 ```
 
 **good:**
 ```php
-abstract class Authentication{
+abstract class Authentication
+{
 
     abstract function authenticate();
 }
 
-class GoogleAuthentication extends Authentication{
-    public function authenticate(){
-    	// logic for google authentication
+class GoogleAuthentication extends Authentication
+{
+    public function authenticate()
+    {
+        // logic for google authentication
         return true;
     }
 }
 
-class GithubAuthentication extends Authentication{
-    public function authenticate(){
-    	// logic for github authentication
+class GithubAuthentication extends Authentication
+{
+    public function authenticate()
+    {
+        // logic for github authentication
         return true;
     }
 }
 
-Authentication $user_auth = new GoogleAuthentication();  // for Google Authentication
+// code from client script
+$user_auth = new GoogleAuthentication();  // for Google Authentication
 // for Github authentication we would initialize it as 'new GithubAuthentication()' 
 // and no changes would be required in the rest of the code
 
@@ -375,283 +709,200 @@ $user_auth->authenticate();
 ```
 
 
-### 4.2 Always enforce encapsulation
+## 7. Closures
+
+- General Closures
+```php
+$closureWithArgs = function ($arg1, $arg2) {
+    // body
+};
+
+$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
+    // body
+};
+
+$closureWithArgsVarsAndReturn = function ($arg1, $arg2) use ($var1, $var2): bool {
+    // body
+};
+```
+
+- Multi-line Closures
+```php
+$longArgs_noVars = function (
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+) {
+   // body
+};
+
+$noArgs_longVars = function () use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+
+$longArgs_longVars = function (
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+) use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+
+$longArgs_shortVars = function (
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+) use ($var1) {
+   // body
+};
+
+$shortArgs_longVars = function ($arg) use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+```
+- Defining closures on function invocations
+```php
+$foo->bar(
+    $arg1,
+    function ($arg2) use ($var1) {
+        // body
+    },
+    $arg3
+);
+```
+
+
+# 8. Misc
+
+### Use only either of these two tags: `<?php ?>` or `<?= ?>`. But be consistent.  
+
+### A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. 
+
+"Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file.  
 
 **bad:**
 ```php
-class Result{
-    public $mark;
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
+
+// side effect: loads a file
+include "file.php";
+
+// side effect: generates output
+echo "<html>\n";
+
+// function declaration
+function foo() {
+    // body
 }
-$result = new Result();
-$result->mark -= 10; // penalize 10 marks for cheating
+```
+
+**good:**  
+Stored inside 'declarations.php'
+```php
+function foo() {
+    // body
+}
+```
+
+Stored inside 'side_effects.php'
+```php
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
+
+// side effect: loads a file
+include "file.php";
+
+// side effect: generates output
+echo "<html>\n";
+```
+
+### Structure of a `.php` file
+The below items should be in sequence inside php code files.
+- Opening <?php tag.
+- File-level docblock.
+- One or more declare statements.
+- The namespace declaration of the file.
+- One or more class-based use import statements.
+- One or more function-based use import statements.
+- One or more constant-based use import statements.
+- The remainder of the code in the file.
+- All PHP files MUST end with a non-blank line. 
+- The closing `?>` tag MUST be omitted from files containing only PHP.
+
+**Sample PHP code file:**
+```php
+<?php
+
+/**
+ * This file contains an example of coding styles.
+ */
+
+declare(strict_types=1);
+
+namespace Vendor\Package;
+
+use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
+use Vendor\Package\SomeNamespace\ClassD as D;
+use Vendor\Package\AnotherNamespace\ClassE as E;
+
+use function Vendor\Package\{functionA, functionB, functionC};
+use function Another\Vendor\functionD;
+
+use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
+use const Another\Vendor\CONSTANT_D;
+
+/**
+ * FooBar is an example class.
+ */
+class FooBar
+{
+    // ... additional PHP code ...
+}
+```
+
+Maximum allowed depth for Compound namespaces is no more than two.
+
+**bad:**
+```php
+use Vendor\Package\SomeNamespace\{
+    SubnamespaceOne\AnotherNamespace\ClassA,
+    SubnamespaceOne\ClassB,
+    ClassZ,
+};
 ```
 
 **good:**
 ```php
-class Result{
-
-    private static $MAX_MARK = 100;
-    private static $MIN_MARK = 0;
-
-    private $mark;
-
-    public function __construct($mark){
-        $this->mark = $mark;
-    }
-    public function penalize($penalizeMarks){
-    // method to access the instance variable $mark
-    // and decrease it to non-negative
-    
-        $this->mark-=$penalizeMarks;
-        $this->mark = max(Result::$MIN_MARK, $this->mark);
-    }
-    public function reward($bonusMarks){
-    // method to access the instance variable $mark
-    // and increase it within a fixed limit
-    
-	$this->mark+=$bonusMarks;
-        $this->mark = min(Result::$MAX_MARK, $this->mark);
-    }
-}
-
-$result = new Result(85);
-$result->penalize(5); // penalize 5 marks for cheating
+use Vendor\Package\SomeNamespace\{
+    SubnamespaceOne\ClassB,
+    ClassZ,
+};
+use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
 ```
 
 
-## 5. SOLID
+### 5.4 Lines
+- Lines should not be more than 80 characters. Split lines if they exceed the limit.
+- No more than one statement per line.
+- No trailing white spaces at end of line.
+- Blank lines can be added to indicate block of code with certain purpose.
+- Must use 4 space indentation and not tabs.
 
 
-### S: Single Responsibility
-
-One class should be responsible for ONE and ONLY ONE thing.
-
-**bad:**
-```php
-// Character class stores information of a character and also codes regarding actions made by the character
-class Character{
-    private string $name;
-    private float $healthPoints;
-    private int $positionX, $positionY;
-
-    public function __construct(
-        $name='temp_player', 
-        $healthPoints=100.00, 
-        $positionX=0,
-        $positionY=0)
-    {
-            $this->name = $name;
-            $this->healthPoints = $healthPoints;
-            $this->positionX = $positionX;
-            $this->positionY = $positionY;   
-    }
-    
-    public function fly() {
-        $this->positionX+=5;
-        $this->positionY+=5;
-    }
-
-    public function sleep() {
-        $this->healthPoints+=100.00;
-    }
-}
-```
-
-**good:**
-```php
-// 'Character' class only holds information 
-// and a separate 'CharacterAction' class holds implementions of action by the character
-
-class Character{
-    private string $name;
-    private float $healthPoints;
-    private int $positionX, $positionY;
-
-    public function __construct(
-        $name='temp_player', 
-        $healthPoints=100.00, 
-        $positionX=0,
-        $positionY=0)
-    {
-        $this->name = $name;
-        $this->healthPoints = $healthPoints;
-        $this->positionX = $positionX;
-        $this->positionY = $positionY;   
-    }
-}
-
-class CharacterAction{
-
-    public function fly(Character $character) : Character
-    {
-        $character->positionX+=5;
-        $character->positionY+=5;
-        return $character;
-    }
-
-    public function sleep(Character $character) : Character
-    {
-        $character->healthPoints+=100.00;      
-        return $character;
-    }
-}
-```
-
-
-### O: Open-Closed Principal
-
-Open for extension, closed for modification. Make update by extending existing classes and not by modifying them by adding new instance variables and/or method.
-
-**bad:**
-```php
-// everytime we implement 'insert()' for a new database,
-// we need to add new method to the Database class
-
-class Database{
-
-    public function insertToFirebase(){
-        // implementation
-    }
-    
-    public function insertToMysql(){
-        // implementation
-    }
-}
-```
-
-**good:**
-```php
-// everytime we implement 'insert()' for a new database source ,
-// we just need to extend the Database class and add the implementation there.
-
-abstract class Database{
-
-    abstract function insert();
-}
-
-class FirebaseDatabase extends Database{
-    // overriden method
-    function insert(){
-        // implementation
-    }
-}
-
-class MySqlDatabase extends Database{
-    // overriden method
-    function insert(){
-        // implementation
-    }
-}
-```
-
-### L: Liskov Substitution Principal
-
-All super class instances should be completely replacable by their subclasses. Generally, this can be achieved through an additional level of abstraction (addding another higher level interface/abstract class) see the traditional "Rectangle-Square" example: https://github.com/jupeter/clean-code-php#liskov-substitution-principle-lsp
-
-
-### I: Interface Segragation
-
-Keep interfaces short and meaningful, don't force the implementing classes to override irrelevant methods.
-
-**bad:**
-```php
-// characters who are only supposed to farm or attack or heal would be forced to override the other methods
-interface Action{
-    function farm();
-    function attack();
-    function heal();
-}
-```
-
-**good:**
-```php
-// character classes can implement corresponding interfaces based on their defined abbilities
-interface VillagerAction{
-    function farm();
-}
-
-interface AttackerAction{
-    function attack();
-}
-
-interface HealerAction{
-    function heal();
-}
-```
-
-
-### D: Dependency Inversion
-
-- high-level modules should not depend on low-level modules. Both should depend on abstractions.
-- abstractions should not depend upon details. Details should depend on abstractions. 
-
-***The coding example below only contains demo for point (ii)***
-
-**bad:**
-```php
-abstract class Insect{
-
-    protected int $positionX, $positionY, $positionZ;
-
-    abstract function crawl();
-    abstract function fly();
-}
-
-class Cockroach extends Insect{
-
-    function crawl(){
-        // code for crawling
-    }
-
-    function fly(){
-        // code for flying
-    }
-}
-
-class Scorpion extends Insect{
-    
-    function crawl(){
-        // code for crawling
-    }
-
-    // scorpions can't fly!
-    // abstract class Insect contains too much details about insects (that they can crawl and fly)
-    function fly(){
-        // code for flying
-    }
-}
-```
-
-**good (maybe...):**
-```php
-abstract class Insect{
-
-    protected int $positionX, $positionY, $positionZ;
-}
-
-interface Flyable{
-    function fly();
-}
-
-interface Crawlable{
-    function crawl();
-}
-
-class Cockroach extends Insect implements Flyable, Crawlable{
-
-    function crawl(){
-        // code for crawling
-    }
-
-    function fly(){
-        // code for flying
-    }
-} 
-
-class Scorpion extends Insect implements Crawlable{
-
-    function crawl(){
-        // code for crawling
-    }
-}
-```
+## 6. References
+- [PHP Standard Recommendation Docs](https://www.php-fig.org/): [PSR-1](https://www.php-fig.org/psr/psr-1/), [PSR-12](https://www.php-fig.org/psr/psr-12/)
+- https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75 
+- https://github.com/jupeter/clean-code-php.
