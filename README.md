@@ -1,80 +1,89 @@
-# practice-php-clean-code
-Documentation on clean coding and demonstration of studied clean coding principals with PHP. 
+# PHP Coding Conventions
+
+The coding conventions mentioned below were summarized from **[PHP Standard Recommendation](https://www.php-fig.org/)** for more details on any of the points below please refer to [PSR-1](https://www.php-fig.org/psr/psr-1/) and [PSR-12](https://www.php-fig.org/psr/psr-12/) documentation.
 
 
-## 1. General Rules
+## 1. Structure of a `.php` Files
 
-DRY: Don't Repeat Yourself - write repeated codes inside functions.  
-KISS: Keep It Simple Stupid - go for the simplest solution first (try linear search before binary search).  
-Boy Scout Rule: Leave the campground cleaner than you found it. (no matter who made the mess, tidy up as much as you can)
-
-
-**1.1 Variable Naming Rules:**
-- Use nouns to name variables.
-- descriptive, easy to search, easy to pronounce. 
-- don't add type information, avoid encodings.
-- replace magic numbers with constants.
-
-
-**1.2 Comments:**
-- The code is the best documentation.
-- Use only to clarify code.
-
-**1.3 Functions:**
-- Use verbs to name functions.
-- Place functions in the downward direction.
-- keep it simple and short, do only one thing inside a function. Rule of thumb: whole function should fits in your monitor.
-	- keep number of parameters small (<=3), 
-	- avoid passing booleans (are you trying to do more than one thing?).
-	- use language provided library functions (sorting, searching, data structures etc.)
-- AVOID SIDE EFFECTS (changing variables passed by reference)
-
-**1.4 Class:**
-- use public, private, protected keywords.
-- keep small, and only for single purpose.
-- small number of instance variables.
-- super class should know nothing of it's sub classes.
-- keep utility variables and methods private.
-- avoid redundancy by inheriting from classes.
-
-**1.5 Tests:**
-- fast to execute.
-- should not depend on other tests.
-- one assert per test.
-- TEST DRIVEN DEVELOPMENT - write tests first ->  code fails the tests -> write code to satisfy the tests -> repeat
-
-
-
-## 2. Variables
-- Can use camelCase, StudlyCaps/PascalCase or, snake_case for nming, but consistently use only one.
+- PHP code MUST use the long `<?php ?>` tags; it MUST NOT use the other tag variations.
+- The opening `<?php` tag MUST be on its own line with no other statements.
+- All `.php` files MUST end with a non-blank line.
+- The closing `?>` tag MUST be omitted from files containing only PHP.
+- A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. "Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file. Example .php file with side effects:
 ```php
-$camelCase = 'camelCase';
-$PascalCase = 'PascalCase';
-$snake_case = 'snake_case';
+<?php
+// the codes below would run just by including the file on other php scripts
+
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
+
+// side effect: generates output
+echo "<html>\n";
 ```
-- Name constant variables in all capital.
-```php
-const CONST_VAR = 'constant';
-```
-- Make variable names clear, searchable. don't encode or minify.  
+- The header of a PHP file may consist of a number of different blocks. If present, each of the blocks below MUST be separated by a single blank line, and MUST NOT contain a blank line in between. Each block MUST be in the order listed below, blocks that are not required may be omitted.
+    - Opening <?php tag.
+    - File-level docblock.
+    - One or more declare statements.
+    - The namespace declaration of the file.
+    - One or more class-based use import statements.
+    - One or more function-based use import statements.
+    - One or more constant-based use import statements.
+    - The remainder of the code in the file.
 
+Example of a sample .php file is given below:
 ```php
-$currTmptr = 24; // bad
-$currentTemparature = 24; // good
+<?php
+
+/**
+ * This file contains an example of coding styles. (File-level docblock)
+ */
+
+declare(strict_types=1); 
+
+namespace Vendor\Package;
+
+use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
+use Vendor\Package\SomeNamespace\ClassD as D;
+use Vendor\Package\AnotherNamespace\ClassE as E;
+
+use function Vendor\Package\{functionA, functionB, functionC};
+use function Another\Vendor\functionD;
+
+use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
+use const Another\Vendor\CONSTANT_D;
+
+/**
+ * FooBar is an example class.
+ */
+class FooBar
+{
+    // ... additional PHP code ...
+}
 ```
 
+## 2. Code Lines
+- Lines should not be more than 80 characters. Split lines if they exceed the limit.
+- No more than one statement per line.
+- No trailing white spaces at end of line.
+- Blank lines can be added to indicate block of code with certain purpose.
+- Must use 4 space indentation and not tabs.
 
-## 3. Conditional Statements
+
+## 3. Control Statements
+Control structures refer to `conditional` (if-else, switch-case), `loop` (for, while etc.) and `exception` (try-catch).
+- Put one space after the control structure keyword.
+- No space after the opening parenthesis.
+- No space before the closing parenthesis.
+- Put one space between the closing parenthesis and the opening brace.
+- Indented the body inside control statements once.
+- Put the body on the next line after the opening brace.
+- Put closing brace on the next line after the body.
 
 ### 3.1 `if`, `elseif`, `else`
-- There MUST be one space after the control structure keyword
-- There MUST NOT be a space after the opening parenthesis
-- There MUST NOT be a space before the closing parenthesis
-- There MUST be one space between the closing parenthesis and the opening brace
-- The structure body MUST be indented once
-- The body MUST be on the next line after the opening brace
-- The closing brace MUST be on the next line after the body
+`if` block structures look like the following. Note the placement of parentheses, spaces, and braces; and that `else` and `elseif` are on the same line as the closing brace from the earlier body. Multiple Expression can be split into separate lines as shown.
+
 ```php
+// with expression on single line
 if ($expr1) {
     // if body
 } elseif ($expr2) {
@@ -82,10 +91,8 @@ if ($expr1) {
 } else {
     // else body;
 }
-```
 
-```php
-// with multi-line conditions
+// with expression on multi-line
 if (
     $expr1
     && $expr2
@@ -99,10 +106,10 @@ if (
 }
 ```
 
-### 3.2 `switch`, `case`
-
-- General Structure,
+### 3.2 `switch-case`
+A `switch` structure looks like the following. Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as // no break when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown..
 ```php
+// with expressions on single line
 switch ($expr) {
     case 0:
         echo 'First case, with a break';
@@ -119,9 +126,8 @@ switch ($expr) {
         echo 'Default case';
         break;
 }
-```
-```php
-// with multi-line conditions
+
+// with expressions on multi-line
 switch (
     $expr1
     && $expr2
@@ -131,12 +137,14 @@ switch (
 ```
 
 ### 3.3 `for`
+`for` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `for` statement may be split in multiple lines as shown.
 ```php
+// with expressions on single line
 for ($i = 0; $i < 10; $i++) {
     // for body
 }
-```
-```php
+
+// with expressions on multi-line
 for (
     $i = 0;
     $i < 10;
@@ -147,6 +155,7 @@ for (
 ```
 
 ### 3.4 `foreach`
+`foreach` statements look like the following. Note the placement of parentheses, spaces, and braces.
 ```php
 foreach ($iterable as $key => $value) {
     // foreach body
@@ -154,12 +163,14 @@ foreach ($iterable as $key => $value) {
 ```
 
 ### 3.5 `while`
+`while` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
 ```php
+// with expressions on single line
 while ($expr) {
     // structure body
 }
 
-// with multi-line conditions
+// with expression on multi-line
 while (
     $expr1
     && $expr2
@@ -168,7 +179,25 @@ while (
 }
 ```
 
-### 3.6 `try`, `catch`, `finally`
+### 3.6 `do-while`
+`do-while` statements are similar to `while` as follows.
+```php
+// with expression on single line
+do {
+    // structure body;
+} while ($expr);
+
+// with expression on multi-line
+do {
+    // structure body;
+} while (
+    $expr1
+    && $expr2
+);
+```
+
+### 3.7 `try`, `catch`, `finally`
+`try-catch-finally` blocks look like the following. Note the placement of parentheses, spaces, and braces.
 ```php
 try {
     // try body
@@ -181,20 +210,6 @@ try {
 }
 ```
 
-### 3.7 `do while`
-```php
-do {
-    // structure body;
-} while ($expr);
-
-// with multi-line conditions
-do {
-    // structure body;
-} while (
-    $expr1
-    && $expr2
-);
-```
 
 ## 4. Operators
 
@@ -210,7 +225,7 @@ $intValue = (int) $input;
 ```
 
 ### 4.2 Binary Operators
-- All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space:
+- All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space.
 ```php
 if ($a === $b) {
     $foo = $bar ?? $a ?? $b;
@@ -219,28 +234,30 @@ if ($a === $b) {
 }
 ```
 
-
 ### 4.3 Ternary Operators
-- The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters:
+- The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters.
 ```php
 $variable = $foo ? 'foo' : 'bar';
 ```
 
 
-## 5. Functions
+## 5. Function
 
-### 5.1 Formatting Rules
 - name should be in camelCase.
 - opening and closing braces must be on their own line
 - arguments with default values go last.
+- when splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.  
+- When specifying return types, put one space after and no space before the colon. 
+- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
+- For nullable type declaration add `?` before type keyword without any space
 ```php
+// function with arguments in single line and no return type
 function fooBarBaz($arg1, &$arg2, $arg3 = [])
 {
     // function body
 }
-```
-- when splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
-```php
+
+// function with arguments on multiple lines and no return type
 function aVeryLongFunctionName(
     int $arg1,
     &$arg2,
@@ -248,16 +265,14 @@ function aVeryLongFunctionName(
 ) {
     // implementation
 }
-```  
-- When specifying return types, put one space after and no space before the colon. 
-- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
-- For nullable type declaration add `?` before type keyword without any space
-```php
+
+// function with arguments in single line and return type
 function functionName(int $arg1, $arg2): string
 {
     return 'foo';
 }
 
+// function with arguments in multiple line and return type
 function multilineFunction(
     string $foo,
     string $bar,
@@ -266,253 +281,54 @@ function multilineFunction(
     return 'foo';
 }
 
+// function with nullable arguments and return type
 function functionWithNullableType(?string $arg1): ?string
 {
     return 'foo';
 }
 ```
 - When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation all arguments.
+- A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
 ```php
+// function invocation with single line arguments
+bar($arg2, $arg3);
+
+// function invocation with multi-line arguments 
 $fooBar(
     $longArgument,
     $longerArgument,
     $muchLongerArgument
 );
-```
-### 5.2 Design Suggestions
 
-- Return as early as possible.
-
-**bad:**
-```php
-function fooFunc(int $fooVar): int
-{
-
-    $returnValue = null;
-
-    if ($fooVar % 2 == 0) $returnValue = 0;
-
-    else {
-
-        // very long and complex code...
-
-        $returnValue = 100;
-    }
-
-    return $returnValue;
-}
-```
-
-**good:**
-```php
-function fooFunc(int $fooVar): int
-{
-
-    $returnValue = null;
-
-    if ($fooVar % 2 == 0) return 0;
-
-    // very long and complex code...    
-    $returnValue = 100;
-
-    return $returnValue;
-}
+// function invocation with single argument on multiple lines
+somefunction($foo, $bar, [
+  // ...
+], $baz);
 ```
 
 
-- Avoid deep nesting.
+## 6. Class
+The term "`class`" refers to all `class`, `interface`, and `trait` used in php.
 
-**bad:**
-```php
-function isWeekend($day, $week)
-{
-    // weekend is Sundays every week and Saturdays on every alternating week
-
-    if ($week % 2 == 0) {
-        if ($day == 'Sunday' || $day == 'Saturday') return true;
-        else return false;
-    } else {
-        if ($day == 'Sunday') return true;
-        else return false;
-    }
-}
-```
-
-**good:**
-```php
-function isWeekend($day, $week)
-{
-    // weekend is Sundays every week and Saturdays on every alternating week
-
-    $weekendDays = ['Sunday'];
-    $alternateWeekendDays = ['Sunday', 'Saturday'];
-
-    if ($week % 2 == 0) return in_array($day, $weekendDays);
-    else return in_array($day, $alternateWeekendDays);
-}
-```
-
-
-- Avoid passing flags as function arguments, functions should do only one thing.
-
-**bad:**
-```php
-function processYear(int $year, bool $isYearLeap)
-{
-
-    if ($isYearLeap) {
-        // process leap year
-    } else {
-        // process not leap year
-    }
-}
-```
-
-**good:**
-```php
-function processLeapYear(int $year)
-{
-    // process leap year
-}
-
-function processNotLeapYear(int $year)
-{
-    // process not leap year
-}
-```
-
-
-- Do only ONE thing inside a function.
-
-**bad:**
-```php
-// the functions 'addAndMultiply()' and 'substractAndDivide()' were too much complicated 
-// to forcefully fit the implementation of 'applyFormula()' functions
-
-function addAndMultiply(int $x, int $y, int $z): int
-{
-
-    $result = $x + $y;
-    $result = $result * $z;
-    return $result;
-}
-
-function substractAndDivide(int $x, int $y, int $z): int
-{
-
-    $result = $x - $y;
-    $result = $result / $z;
-    return $result;
-}
-
-function applyFormula(int $x, int $y, int $z): int
-{
-    // apply formula (x+y)*z + (x-y)/z
-
-    return addAndMultiply($x, $y, $z) + substractAndDivide($x, $y, $z);
-}
-```
-
-**good:**
-```php
-// instead create generalized functions to do one task only.
-
-function add(int $x, int $y): int
-{
-    return $x + $y;
-}
-function substract(int $x, int $y): int
-{
-    return $x - $y;
-}
-function multiply(int $x, int $y): int
-{
-    return $x * $y;
-}
-function divide(int $x, int $y): int
-{
-    return $x / $y;
-}
-
-function applyFormula(int $x, int $y, int $z): int
-{
-    // apply formula (x+y)*z + (x-y)/z
-
-    $sumPart1 = multiply(add($x, $y), $z); // calculate (x+y)*z
-    $sumPart2 = divide(substract($x, $y), $z); // calculate (x+y)*z
-    $result = add($sumPart1, $sumPart2);
-
-    return $result;
-}
-```
-
-
-- Specify function arguments variable types and/or return type. (when not defining generic functions that are intended to be type independent)
-
-**bad:**
-```php
-function addNumbers($x, $y): int
-{
-
-    if (!is_numeric($x) || !is_numeric($y)) {
-        throw new Exception('Must be a Number');
-    }
-
-    return $x + $y;
-}
-```
-
-**good:**
-```php
-function addNumbers(int $x, int $y): int
-{
-    return $x + $y;
-}
-```
-
-
-## 6. Classes / OOP: Object Oriented Programming
-
-### 6.1 Formatting Rules
-- Keep classes in a php file by itself, named same as the class name.
-- Class names should be in 'StudlyCaps/PascalCase'.
-- Property/variable names can be in either camelCase, StudlyCaps/PascalCase or, snake_case. Constant variable names should be in all caps.
-- Method names can be in either camelCase, StudlyCaps/PascalCase or, snake_case.
+- Keep classes in a `.php` file by itself, named same as the class name.
+- Class names should be in `PascalCase`.
 - Opening and closing brace must be on their own separate line.
-
-Sample Class:
-
-```php
-class Foo
-{
-    public const FOO_CONST = 1000;
-
-    private $fooVar;
-
-    public function __construct($fooVar)
-    {
-        $this->fooVar = $fooVar;
-    }
-
-    public function getFooVar()
-    {
-        return $this->fooVar;
-    }
-
-    public function setFooVar($fooVar)
-    {
-        $this->fooVar = $fooVar;
-    }
-}
-```
-
 - Keep `extends` and `implements` on the same line as class name. Multiple `implements` can be spread accross multiple lines, with one interface per line.  
 ```php
-class FooClass extends FooParent implements
-    FooInterface1
-    FooInterface2
+// class with extends and implements on same line
+class ClassName extends ParentClass implements \ArrayAccess, \Countable
 {
-    // implementation
+    // constants, properties, methods
+}
+
+
+// class with implements on multiple lines
+class ClassName extends ParentClass implements
+    \ArrayAccess,
+    \Countable,
+    \Serializable
+{
+    // constants, properties, methods
 }
 ```
 - Put `abstract`, `final` keywords before and `static` keyword after visibility declaration keywords.
@@ -530,14 +346,139 @@ abstract class ClassName
 }
 ```
 
-- Inner Classes
+### 6.1 Class properties/variables
+- Property/variable names should be in `camelCase`.
+- Visibility (`private`, `public`, `protected`) MUST be declared on all properties, including constants (PHP 7.1 or later).
+- The `var` keyword MUST NOT be used to declare a property.
+- One property declaration per statement.
+- Class constants MUST be declared in all upper case with underscore separators, and include visibility keyword if supported.
 ```php
-// Brace on the same line
+class ClassName
+{
+    public const DATE_APPROVED = '2012-06-01';
+    public $foo = null;
+    public static int $bar = 0;
+}
+```
+
+### 6.2 Class methods/functions
+- Method names must be in either `camelCase`.
+- Visibility (`private`, `public`, `protected`) MUST be declared on all methods.
+- No space between the opening and closing paranthesis.
+- Opening and closing braces must be on their own line.
+- In the argument list put one space after commas and no space before.
+- Arguments with default values go last.
+- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
+- In nullable type declarations, don't put any space between question mark and type.
+- Put `abstract` and `final` declarations before the visibility declaration and `static` after.
+```php
+abstract class ClassName
+{
+    // method with single line arguments and no return type
+    public function fooBarBaz($arg1, &$arg2, $arg3 = [])
+    {
+        // method body
+    }
+
+    // method with multi-line arguments and no return type
+    public function aVeryLongMethodName(
+        ClassTypeHint $arg1,
+        &$arg2,
+        array $arg3 = []
+    ) {
+        // method body
+    }
+
+    // method with single line arguments and return type
+    public function functionName(int $arg1, $arg2): string
+    {
+        return 'foo';
+    }
+
+    // method with multi-line arguments and return type
+    public function anotherFunction(
+        string $foo,
+        string $bar,
+        int $baz
+    ): string {
+        return 'foo';
+    }
+
+    // method with nullable type declarations
+    public function functionName(?string $arg1, ?int &$arg2): ?string
+    {
+        return 'foo';
+    }
+
+    // abstract method
+    abstract protected function zim();
+
+    // method with multiple keywords final, public, static
+    final public static function bar()
+    {
+        // method body
+    }
+}
+```
+
+### 6.3 Invoking Class Methods/Functions
+- No space between the invoking method or function name and the opening parenthesis or after the opening parenthesis or before the closing parenthesis. 
+- Give space after commas and not before.
+- Argument lists may be split across multiple lines, where each subsequent line is indented once. When doing so, put the first item on the list on the next line, and put only one argument per line. A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
+```php
+// invoking non-static method
+$foo->barA($arg1);
+
+// invoking static method
+Foo::barB($arg2, $arg3);
+
+// invoking method with arguements list on multi-line 
+$foo->barC(
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+);
+
+// invoking method with single argument on multi-line
+$foo->barD($foo, $bar, [
+  // ...
+], $baz);
+```
+
+### 6.4 Class Traits
+- The `use` keyword used inside the classes to implement traits MUST be declared on the next line after the opening brace. Each `use` trait statement should be on its own line and have a blank line if there are other elements of the class afterwards.
+```php
+class ClassName
+{
+    use FirstTrait;
+
+    private $property;
+}
+```
+- When using the `insteadof` and `as` operators they must be used as follows taking note of indentation, spacing, and new lines.
+```php
+class Talker
+{
+    use A;
+    use B {
+        A::smallTalk insteadof B;
+    }
+    use C {
+        B::bigTalk insteadof C;
+        C::mediumTalk as FooBar;
+    }
+}
+```
+
+### 6.5 Anonymous classes
+- Anonymous classes must be declared as follows taking note of indentation, spacing, and new lines.
+```php
+// Brace on the same line, with single implement
 $instance = new class extends \Foo implements \HandleableInterface {
     // Class content
 };
 
-// Brace on the next line
+// Brace on the next line, with multiple implements
 $instance = new class extends \Foo implements
     \ArrayAccess,
     \Countable,
@@ -547,187 +488,31 @@ $instance = new class extends \Foo implements
 };
 ```
 
-### 6.2 Design Suggestions
-- Always enforce encapsulation
-
-**bad:**
-```php
-class Result
-{
-    public $mark;
-}
-
-// code from client script
-$result = new Result();
-$result->mark -= 10; // penalize 10 marks for cheating
-```
-
-**good:**
-```php
-class Result
-{
-
-    private static $MAX_MARK = 100;
-    private static $MIN_MARK = 0;
-
-    private $mark;
-
-    public function __construct($mark)
-    {
-        $this->mark = $mark;
-    }
-    public function penalize($penalizeMarks)
-    {
-        // method to access the instance variable $mark
-        // and decrease it to non-negative
-
-        $this->mark -= $penalizeMarks;
-        $this->mark = max(Result::$MIN_MARK, $this->mark);
-    }
-    public function reward($bonusMarks)
-    {
-        // method to access the instance variable $mark
-        // and increase it within a fixed limit
-
-        $this->mark += $bonusMarks;
-        $this->mark = min(Result::$MAX_MARK, $this->mark);
-    }
-}
-
-// code from client script
-$result = new Result(85);
-$result->penalize(5); // penalize 5 marks for cheating
-```
-
-- Use constants/enums instead of magic hardcoded numbers.
-
-**bad:**
-```php
-class User
-{
-
-    public $type = 'employee'; // what is a 'employee', what are other types??
-}
-```
-
-**good:**
-```php
-class UserType
-{
-    // dedicated class to keep constant values of employee types
-
-    public const ADMIN_USER = 'admin';
-    public const EMPLOYEE_USER = 'employee';
-    public const MANAGER_USER = 'manager';
-}
-
-class User
-{
-
-    public $type = UserType::ADMIN_USER;
-}
-```
-
-- Use polymorphism instead of type cheking
-
-**bad:**
-```php
-class Authentication
-{
-
-    public $auth_type;
-
-    public function __construct($auth_type)
-    {
-        $this->auth_type = $auth_type;
-    }
-
-    public function googleAuthentication()
-    {
-        // logic for google authentication
-        return true;
-    }
-
-    public function githubAuthentication()
-    {
-        // logic for github authentication
-        return true;
-    }
-}
-
-
-// code from client script
-$user_authenticator = new Authentication('github');
-
-// making call to authentication function based on '$user_authentication->type' variable
-switch ($user_authenticator->auth_type) {
-    case 'google':
-        $user_authenticator->googleAuthentication();
-        break;
-
-    case 'github':
-        $user_authenticator->githubAuthentication();
-        break;
-
-    default:
-        throw new Exception('unknon auth type=' . $user_authenticator->auth_type);
-}
-```
-
-**good:**
-```php
-abstract class Authentication
-{
-
-    abstract function authenticate();
-}
-
-class GoogleAuthentication extends Authentication
-{
-    public function authenticate()
-    {
-        // logic for google authentication
-        return true;
-    }
-}
-
-class GithubAuthentication extends Authentication
-{
-    public function authenticate()
-    {
-        // logic for github authentication
-        return true;
-    }
-}
-
-// code from client script
-$user_auth = new GoogleAuthentication();  // for Google Authentication
-// for Github authentication we would initialize it as 'new GithubAuthentication()' 
-// and no changes would be required in the rest of the code
-
-$user_auth->authenticate();
-```
-
-
 ## 7. Closures
-
-- General Closures
+- Put a space after the `function` keyword, and a space before and after the `use` keyword.
+- Put the opening brace on the same line, and the closing brace on the next line after the body.
+- No space after the opening parenthesis of the argument list or variable list, and before the closing parenthesis of the argument list or variable list.
+- Put space after commas inside the argument and/or variable list and not before.
+- Closure arguments with default values MUST go at the end of the argument list.
+- If a return type is present, it MUST follow the same rules as with normal functions and methods; if the `use` keyword is present, put the colon after the `use` list's closing parentheses with no spaces in between.
 ```php
-$closureWithArgs = function ($arg1, $arg2) {
+$foo = function ($arg1, $arg2) {
     // body
 };
 
-$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
+$bar = function ($arg1, $arg2) use ($var1, $var2) {
     // body
 };
 
-$closureWithArgsVarsAndReturn = function ($arg1, $arg2) use ($var1, $var2): bool {
+$baz = function ($arg1, $arg2) use ($var1, $var2): bool {
     // body
 };
 ```
 
-- Multi-line Closures
+- Argument lists and variable lists may be split across multiple lines, with single indentation on each line. When doing so, put the first item in the list on the next line, and put only one argument or variable per line.
+- When the ending list (arguments or variables) is split across multiple lines, put the closing parenthesis and opening brace together on their own line with one space between them.
 ```php
+// closure with arguments on multiple lines and no variables
 $longArgs_noVars = function (
     $longArgument,
     $longerArgument,
@@ -736,6 +521,7 @@ $longArgs_noVars = function (
    // body
 };
 
+// closure with no arguments and variables on multiple lines
 $noArgs_longVars = function () use (
     $longVar1,
     $longerVar2,
@@ -744,6 +530,7 @@ $noArgs_longVars = function () use (
    // body
 };
 
+// closure with arguments and variables on multiple lines
 $longArgs_longVars = function (
     $longArgument,
     $longerArgument,
@@ -756,6 +543,7 @@ $longArgs_longVars = function (
    // body
 };
 
+// closure with arguments on multiple lines and variables on single line
 $longArgs_shortVars = function (
     $longArgument,
     $longerArgument,
@@ -784,107 +572,9 @@ $foo->bar(
 ```
 
 
-# 8. Misc
-
-### Use only either of these two tags: `<?php ?>` or `<?= ?>`. But be consistent.  
-
-### A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. 
-
-"Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file.  
-
-**bad:**
-```php
-// side effect: change ini settings
-ini_set('error_reporting', E_ALL);
-
-// side effect: loads a file
-include "file.php";
-
-// side effect: generates output
-echo "<html>\n";
-
-// function declaration
-function foo() {
-    // body
-}
-```
-
-**good:**  
-Stored inside 'declarations.php'
-```php
-function foo() {
-    // body
-}
-```
-
-Stored inside 'side_effects.php'
-```php
-// side effect: change ini settings
-ini_set('error_reporting', E_ALL);
-
-// side effect: loads a file
-include "file.php";
-
-// side effect: generates output
-echo "<html>\n";
-```
-
-### Structure of a `.php` file
-The below items should be in sequence inside php code files.
-- Opening <?php tag.
-- File-level docblock.
-- One or more declare statements.
-- The namespace declaration of the file.
-- One or more class-based use import statements.
-- One or more function-based use import statements.
-- One or more constant-based use import statements.
-- The remainder of the code in the file.
-- All PHP files MUST end with a non-blank line. 
-- The closing `?>` tag MUST be omitted from files containing only PHP.
-
-**Sample PHP code file:**
-```php
-<?php
-
-/**
- * This file contains an example of coding styles.
- */
-
-declare(strict_types=1);
-
-namespace Vendor\Package;
-
-use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
-use Vendor\Package\SomeNamespace\ClassD as D;
-use Vendor\Package\AnotherNamespace\ClassE as E;
-
-use function Vendor\Package\{functionA, functionB, functionC};
-use function Another\Vendor\functionD;
-
-use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
-use const Another\Vendor\CONSTANT_D;
-
-/**
- * FooBar is an example class.
- */
-class FooBar
-{
-    // ... additional PHP code ...
-}
-```
-
-Maximum allowed depth for Compound namespaces is no more than two.
-
-**bad:**
-```php
-use Vendor\Package\SomeNamespace\{
-    SubnamespaceOne\AnotherNamespace\ClassA,
-    SubnamespaceOne\ClassB,
-    ClassZ,
-};
-```
-
-**good:**
+## 8. Misc
+- Short form of type keywords MUST be used i.e. `bool` instead of `boolean`, `int` instead of `integer` etc.
+- Maximum allowed depth for Compound namespaces is no more than two.
 ```php
 use Vendor\Package\SomeNamespace\{
     SubnamespaceOne\ClassB,
@@ -892,17 +582,9 @@ use Vendor\Package\SomeNamespace\{
 };
 use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
 ```
-
-
-### 5.4 Lines
-- Lines should not be more than 80 characters. Split lines if they exceed the limit.
-- No more than one statement per line.
-- No trailing white spaces at end of line.
-- Blank lines can be added to indicate block of code with certain purpose.
-- Must use 4 space indentation and not tabs.
-
-
-## 6. References
-- [PHP Standard Recommendation Docs](https://www.php-fig.org/): [PSR-1](https://www.php-fig.org/psr/psr-1/), [PSR-12](https://www.php-fig.org/psr/psr-12/)
-- https://medium.com/swlh/the-must-know-clean-code-principles-1371a14a2e75 
-- https://github.com/jupeter/clean-code-php.
+- Block declare statements are allowed and MUST be formatted as below. Note position of braces and spacing.
+```php
+declare(ticks=1) {
+    // some code
+}
+```
