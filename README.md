@@ -107,7 +107,7 @@ if (
 ```
 
 ### 3.2 `switch-case`
-A `switch` structure looks like the following. Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as // no break when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown..
+A `switch` structure looks like the following. Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as `// no break` when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown..
 ```php
 // with expressions on single line
 switch ($expr) {
@@ -243,10 +243,10 @@ $variable = $foo ? 'foo' : 'bar';
 
 ## 5. Function
 
-- name should be in camelCase.
-- opening and closing braces must be on their own line
-- arguments with default values go last.
-- when splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.  
+- Name should be in camelCase.
+- Opening and closing braces must be on their own line
+- Arguments with default values go last.
+- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.  
 - When specifying return types, put one space after and no space before the colon. 
 - Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
 - For nullable type declaration add `?` before type keyword without any space
@@ -287,7 +287,7 @@ function functionWithNullableType(?string $arg1): ?string
     return 'foo';
 }
 ```
-- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation all arguments.
+- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation on all arguments.
 - A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
 ```php
 // function invocation with single line arguments
