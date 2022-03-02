@@ -27,6 +27,13 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
     - [Anonymous Classes](#65-anonymous-classes)
 - [Closures](#7-closures)
 - [Misc](#8-misc)
+- [Code Examples](#9-code-examples)
+    - [Code with side effects](#code-with-side-effects-go-back)
+    - [Sample `.php` file structure](#sample-php-file-structure)
+    - [`if-elseif-else` code](#if-elseif-else-code-go-back)
+    - [`switch-case` code](#switch-case-code-go-back)
+    - [`for` loops code](#for-loops-code-go-back)
+    - [`foreach` loops code](#foreach-loops-code-go-back)
 
 ## 1. Structure of a `.php` Files
 
@@ -34,18 +41,8 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
 - The opening `<?php` tag MUST be on its own line with no other statements.
 - All `.php` files MUST end with a non-blank line.
 - The closing `?>` tag MUST be omitted from files containing only PHP.
-- A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. "Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file. Example .php file with side effects:
-```php
-<?php
-// the codes below would run just by including the file on other php scripts
-
-// side effect: change ini settings
-ini_set('error_reporting', E_ALL);
-
-// side effect: generates output
-echo "<html>\n";
-```
-- The header of a PHP file may consist of a number of different blocks. If present, each of the blocks below MUST be separated by a single blank line, and MUST NOT contain a blank line in between. Each block MUST be in the order listed below, blocks that are not required may be omitted.
+- A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. "Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file. Example .php file with side effects is given here: [code-with-side-effects](#code-with-side-effects-go-back).
+- The header of a PHP file may consist of a number of different blocks. If present, each of the blocks below MUST be separated by a single blank line, and MUST NOT contain a blank line in between. Each block MUST be in the order listed below, blocks that are not required may be omitted. Sample of an example php file is given here: [sample-php-file-structure](#sample-php-file-structure).
     - Opening <?php tag.
     - File-level docblock.
     - One or more declare statements.
@@ -54,37 +51,6 @@ echo "<html>\n";
     - One or more function-based use import statements.
     - One or more constant-based use import statements.
     - The remainder of the code in the file.
-
-Example of a sample .php file is given below:
-```php
-<?php
-
-/**
- * This file contains an example of coding styles. (File-level docblock)
- */
-
-declare(strict_types=1); 
-
-namespace Vendor\Package;
-
-use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
-use Vendor\Package\SomeNamespace\ClassD as D;
-use Vendor\Package\AnotherNamespace\ClassE as E;
-
-use function Vendor\Package\{functionA, functionB, functionC};
-use function Another\Vendor\functionD;
-
-use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
-use const Another\Vendor\CONSTANT_D;
-
-/**
- * FooBar is an example class.
- */
-class FooBar
-{
-    // ... additional PHP code ...
-}
-```
 
 ## 2. Code Lines
 - Lines should not be more than 80 characters. Split lines if they exceed the limit.
@@ -105,87 +71,20 @@ Control structures refer to `conditional` (if-else, switch-case), `loop` (for, w
 - Put closing brace on the next line after the body.
 
 ### 3.1 `if`, `elseif`, `else`
-`if` block structures look like the following. Note the placement of parentheses, spaces, and braces; and that `else` and `elseif` are on the same line as the closing brace from the earlier body. Multiple Expression can be split into separate lines as shown.
+`if` block structures look like the following: [if-elseif-else code](#if-elseif-else-code-go-back). Note the placement of parentheses, spaces, and braces; and that `else` and `elseif` are on the same line as the closing brace from the earlier body. Multiple Expression can be split into separate lines as shown in the code example.
 
-```php
-// with expression on single line
-if ($expr1) {
-    // if body
-} elseif ($expr2) {
-    // elseif body
-} else {
-    // else body;
-}
-
-// with expression on multi-line
-if (
-    $expr1
-    && $expr2
-) {
-    // if body
-} elseif (
-    $expr3
-    && $expr4
-) {
-    // elseif body
-}
-```
 
 ### 3.2 `switch-case`
-A `switch` structure looks like the following. Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as `// no break` when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown..
-```php
-// with expressions on single line
-switch ($expr) {
-    case 0:
-        echo 'First case, with a break';
-        break;
-    case 1:
-        echo 'Second case, which falls through';
-        // no break
-    case 2:
-    case 3:
-    case 4:
-        echo 'Third case, return instead of break';
-        return;
-    default:
-        echo 'Default case';
-        break;
-}
+A `switch` structure looks like the following: [switch-case code](#switch-case-code-go-back). Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as `// no break` when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown.
 
-// with expressions on multi-line
-switch (
-    $expr1
-    && $expr2
-) {
-    // structure body
-}
-```
 
 ### 3.3 `for`
-`for` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `for` statement may be split in multiple lines as shown.
-```php
-// with expressions on single line
-for ($i = 0; $i < 10; $i++) {
-    // for body
-}
+`for` statements look like the following: [`for` loops code](#for-loops-code-go-back). Note the placement of parentheses, spaces, and braces. Expressions inside the `for` statement may be split in multiple lines as shown.
 
-// with expressions on multi-line
-for (
-    $i = 0;
-    $i < 10;
-    $i++
-) {
-    // for body
-}
-```
 
 ### 3.4 `foreach`
-`foreach` statements look like the following. Note the placement of parentheses, spaces, and braces.
-```php
-foreach ($iterable as $key => $value) {
-    // foreach body
-}
-```
+`foreach` statements look like the following: [`foreach` loops code](#foreach-loops-code-go-back). Note the placement of parentheses, spaces, and braces.
+
 
 ### 3.5 `while`
 `while` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
@@ -611,5 +510,127 @@ use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
 ```php
 declare(ticks=1) {
     // some code
+}
+```
+
+# 9. Code Examples
+### Code with side effects. ([go back](#1-structure-of-a-php-files))
+```php
+<?php
+// the codes below would run just by including the file on other php scripts
+
+// side effect: change ini settings
+ini_set('error_reporting', E_ALL);
+
+// side effect: generates output
+echo "<html>\n";
+```
+
+### Sample `.php` File Structure ([go back](#1-structure-of-a-php-files))
+```php
+<?php
+
+/**
+ * This file contains an example of coding styles. (File-level docblock)
+ */
+
+declare(strict_types=1); 
+
+namespace Vendor\Package;
+
+use Vendor\Package\{ClassA as A, ClassB, ClassC as C};
+use Vendor\Package\SomeNamespace\ClassD as D;
+use Vendor\Package\AnotherNamespace\ClassE as E;
+
+use function Vendor\Package\{functionA, functionB, functionC};
+use function Another\Vendor\functionD;
+
+use const Vendor\Package\{CONSTANT_A, CONSTANT_B, CONSTANT_C};
+use const Another\Vendor\CONSTANT_D;
+
+/**
+ * FooBar is an example class.
+ */
+class FooBar
+{
+    // ... additional PHP code ...
+}
+```
+
+### `if-elseif-else` code ([go back](#31-if-elseif-else))
+```php
+// with expression on single line
+if ($expr1) {
+    // if body
+} elseif ($expr2) {
+    // elseif body
+} else {
+    // else body;
+}
+
+// with expression on multi-line
+if (
+    $expr1
+    && $expr2
+) {
+    // if body
+} elseif (
+    $expr3
+    && $expr4
+) {
+    // elseif body
+}
+```
+
+### `switch-case` code ([go back]())
+```php
+// with expressions on single line
+switch ($expr) {
+    case 0:
+        echo 'First case, with a break';
+        break;
+    case 1:
+        echo 'Second case, which falls through';
+        // no break
+    case 2:
+    case 3:
+    case 4:
+        echo 'Third case, return instead of break';
+        return;
+    default:
+        echo 'Default case';
+        break;
+}
+
+// with expressions on multi-line
+switch (
+    $expr1
+    && $expr2
+) {
+    // structure body
+}
+```
+
+### `for` loops code ([go back](#33-for)) 
+```php
+// with expressions on single line
+for ($i = 0; $i < 10; $i++) {
+    // for body
+}
+
+// with expressions on multi-line
+for (
+    $i = 0;
+    $i < 10;
+    $i++
+) {
+    // for body
+}
+```
+
+### `foreach` loops code ([go back](#34-foreach))
+```php
+foreach ($iterable as $key => $value) {
+    // foreach body
 }
 ```
