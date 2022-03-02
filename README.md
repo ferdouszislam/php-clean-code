@@ -3,6 +3,31 @@
 The coding conventions mentioned below were summarized from **[PHP Standard Recommendation](https://www.php-fig.org/)** for more details on any of the points below please refer to [PSR-1](https://www.php-fig.org/psr/psr-1/) and [PSR-12](https://www.php-fig.org/psr/psr-12/) documentation.
 
 
+## Table of Contents
+
+- [Structure of a `.php` Files](#1-structure-of-a-php-files)
+- [Code Lines](#2-code-lines)
+- [Control Statements](#3-control-statements) 
+    - [`if-elseif-else`](#31-if-elseif-else)
+    - [`switch-case`](#32-switch-case)
+    - [`for`](#33-for)
+    - [`foreach`](#34-foreach)
+    - [`while`](#35-while)
+    - [`do-while`](#36-do-while)
+    - [`try-catch-finally`](#37-try-catch-finally)
+- [Operators](#4-operators)
+    - [Unary Operators](#41-unary-operators)
+    - [Binary Operators](#42-binary-operators)  
+- [Function](#5-function)
+- [Class](#6-class)
+    - [Class Properties/Variables](#61-class-propertiesvariables)
+    - [Class Methods/Functions](#62-class-methodsfunctions)
+    - [Invoking Class Methods/Functions](#63-invoking-class-methodsfunctions)
+    - [Class Traits](#64-class-traits)
+    - [Anonymous Classes](#65-anonymous-classes)
+- [Closures](#7-closures)
+- [Misc](#8-misc)
+
 ## 1. Structure of a `.php` Files
 
 - PHP code MUST use the long `<?php ?>` tags; it MUST NOT use the other tag variations.
