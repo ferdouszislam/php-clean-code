@@ -172,10 +172,10 @@ The term "`class`" refers to all `class`, `interface`, and `trait` used in php.
 
 ### 6.4 Class Traits ([code example](#class-traits-declaration-code-go-back))
 - The `use` keyword used inside the classes to implement traits MUST be declared on the next line after the opening brace. Each `use` trait statement should be on its own line and have a blank line if there are other elements of the class afterwards.
-- When using the `insteadof` and `as` operators they must be used as follows taking note of indentation, spacing, and new lines.
+- When using the `insteadof` and `as` operators they must be used as shown in [code example](#class-traits-declaration-code-go-back) taking note of indentation, spacing, and new lines.
 
 ### 6.5 Anonymous classes ([code example](#anonymous-class-declaration-code-go-back))
-- Anonymous classes must be declared as follows taking note of indentation, spacing, and new lines.
+- Anonymous classes must be declared as shown in [code example](#anonymous-class-declaration-code-go-back) taking note of indentation, spacing, and new lines.
 
 ## 7. Closures ([code example](#closure-declaration-code-go-back))
 - Put a space after the `function` keyword, and a space before and after the `use` keyword.
