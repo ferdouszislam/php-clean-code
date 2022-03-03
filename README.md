@@ -37,6 +37,8 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
     - [`while` loops code](#while-loops-code-go-back)
     - [`do-while` loops code](#do-while-loops-code-go-back)
     - [`try-catch-finally` code](#try-catch-finally-code-go-back)
+    - [Unary operation increment/decrement code](#unary-operation-increment-decrement)
+    - [Unary operation type casting](#unary-operation-type-casting)
 
 ## 1. Structure of a `.php` Files
 
@@ -102,15 +104,8 @@ A `switch` structure looks like the following: [switch-case code](#switch-case-c
 ## 4. Operators
 
 ### 4.1 Unary Operators
-- The increment/decrement operators MUST NOT have any space between the operator and operand.
-```php
-$i++;
-++$j;
-```
-- Type casting operators MUST NOT have any space within the parentheses.
-```php
-$intValue = (int) $input;
-```
+- The increment/decrement operators MUST NOT have any space between the operator and operand. Code example: [Unary operation increment/decrement code](#unary-operation-increment-decrement).
+- Type casting operators MUST NOT have any space within the parentheses. Code example: [Unary operation type casting](#unary-operation-type-casting).
 
 ### 4.2 Binary Operators
 - All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space.
@@ -631,7 +626,7 @@ do {
 );
 ```
 
-### `try-catch-finally` code ([go back](#37try-catch-finally))
+### `try-catch-finally` code ([go back](#37-try-catch-finally))
 ```php
 try {
     // try body
@@ -642,4 +637,15 @@ try {
 } finally {
     // finally body
 }
+```
+
+### Unary operation: increment/decrement
+```php
+$i++;
+++$j;
+```
+
+### Unary operation: type casting
+```php
+$intValue = (int) $input;
 ```
