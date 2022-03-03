@@ -19,7 +19,7 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
     - [Unary Operators](#41-unary-operators-code-example)
     - [Binary Operators](#42-binary-operators-code-example)
     - [Ternary Operators](#43-ternary-operators-code-example)  
-- [Function](#5-function)
+- [Function](#5-function-function-declaration-code-example-function-invokation-code-example)
 - [Class](#6-class-code-example)
     - [Class Properties/Variables](#61-class-propertiesvariables-code-example)
     - [Class Methods/Functions](#62-class-methodsfunctions-code-example)
@@ -382,7 +382,7 @@ $i++;
 $intValue = (int) $input;
 ```
 
-### Binary operators code ([go back]())
+### Binary operators code ([go back](#42-binary-operators-code-example))
 ```php
 if ($a === $b) {
     $foo = $bar ?? $a ?? $b;
@@ -391,12 +391,12 @@ if ($a === $b) {
 }
 ```
 
-### Ternary operators code ([go back]())
+### Ternary operators code ([go back](#43-ternary-operators-code-example))
 ```php
 $variable = $foo ? 'foo' : 'bar';
 ```
 
-### Function declaration code ([go back]())
+### Function declaration code ([go back](#5-function-function-declaration-code-example-function-invokation-code-example))
 ```php
 // function with arguments in single line and no return type
 function fooBarBaz($arg1, &$arg2, $arg3 = [])
@@ -435,7 +435,7 @@ function functionWithNullableType(?string $arg1): ?string
 }
 ```
 
-### Function invokation code ([go back]())
+### Function invokation code ([go back](#5-function-function-declaration-code-example-function-invokation-code-example))
 ```php
 // function invocation with single line arguments
 bar($arg2, $arg3);
@@ -453,7 +453,7 @@ somefunction($foo, $bar, [
 ], $baz);
 ```
 
-### Class definition code ([go back]())
+### Class definition code ([go back](#6-class-code-example))
 ```php
 // class with extends and implements on same line
 class ClassName extends ParentClass implements \ArrayAccess, \Countable
@@ -485,7 +485,7 @@ abstract class ClassName
 }
 ```
 
-### Class properties/variables declaration code ((go back)[])
+### Class properties/variables declaration code ([go back](#61-class-propertiesvariables-code-example))
 ```php
 class ClassName
 {
@@ -495,7 +495,7 @@ class ClassName
 }
 ```
 
-### Class method/functions definition code ((go back)[])
+### Class method/functions definition code ((go back)[#62-class-methodsfunctions-code-example]))
 ```php
 abstract class ClassName
 {
@@ -546,7 +546,7 @@ abstract class ClassName
 }
 ```
 
-### Class function/method invokation ((go back)[])
+### Class function/method invokation ((go back)[#63-invoking-class-methodsfunctions-code-example]))
 ```php
 // invoking non-static method
 $foo->barA($arg1);
@@ -567,7 +567,7 @@ $foo->barD($foo, $bar, [
 ], $baz);
 ```
 
-### Class traits declaration code ((go back)[])
+### Class traits declaration code ((go back)[#64-class-traits-code-example]))
 ```php
 class Talker
 {
@@ -584,7 +584,7 @@ class Talker
 }
 ```
 
-### Anonymous class declaration code ((go back)[])
+### Anonymous class declaration code ((go back)[#65-anonymous-classes-code-example]))
 ```php
 // Brace on the same line, with single implement
 $instance = new class extends \Foo implements \HandleableInterface {
@@ -601,7 +601,7 @@ $instance = new class extends \Foo implements
 };
 ```
 
-### Closure declaration code ((go back)[])
+### Closure declaration code ((go back)[(#7-closures-code-example]))
 ```php
 // closure with arguments on single lines
 $foo = function ($arg1, $arg2) {
@@ -658,6 +658,7 @@ $longArgs_shortVars = function (
    // body
 };
 
+// closure with arguments on single line and variables on multiple lines
 $shortArgs_longVars = function ($arg) use (
     $longVar1,
     $longerVar2,
@@ -665,9 +666,8 @@ $shortArgs_longVars = function ($arg) use (
 ) {
    // body
 };
-```
-- Defining closures on function invocations
-```php
+
+// defining closures on function invocations
 $foo->bar(
     $arg1,
     function ($arg2) use ($var1) {
