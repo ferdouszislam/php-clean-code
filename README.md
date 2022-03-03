@@ -206,7 +206,7 @@ declare(ticks=1) {
 ```
 
 # 9. Code Examples
-### Code with side effects. ([go back](#1-structure-of-a-php-files))
+### Code with side effects. ([go back](#1-structure-of-a-php-files-code-example))
 ```php
 <?php
 // the codes below would run just by including the file on other php scripts
@@ -218,7 +218,7 @@ ini_set('error_reporting', E_ALL);
 echo "<html>\n";
 ```
 
-### Sample `.php` File Structure ([go back](#1-structure-of-a-php-files))
+### Sample `.php` File Structure ([go back](#1-structure-of-a-php-files-code-example))
 ```php
 <?php
 
@@ -495,7 +495,7 @@ class ClassName
 }
 ```
 
-### Class method/functions definition code ((go back)[#62-class-methodsfunctions-code-example]))
+### Class method/functions definition code ([go back](#62-class-methodsfunctions-code-example))
 ```php
 abstract class ClassName
 {
@@ -546,7 +546,7 @@ abstract class ClassName
 }
 ```
 
-### Class function/method invokation ((go back)[#63-invoking-class-methodsfunctions-code-example]))
+### Class function/method invokation ([go back](#63-invoking-class-methodsfunctions-code-example))
 ```php
 // invoking non-static method
 $foo->barA($arg1);
@@ -567,7 +567,7 @@ $foo->barD($foo, $bar, [
 ], $baz);
 ```
 
-### Class traits declaration code ((go back)[#64-class-traits-code-example]))
+### Class traits declaration code ([go back](#64-class-traits-code-example))
 ```php
 class Talker
 {
@@ -584,7 +584,7 @@ class Talker
 }
 ```
 
-### Anonymous class declaration code ((go back)[#65-anonymous-classes-code-example]))
+### Anonymous class declaration code ([go back](#65-anonymous-classes-code-example))
 ```php
 // Brace on the same line, with single implement
 $instance = new class extends \Foo implements \HandleableInterface {
@@ -601,7 +601,7 @@ $instance = new class extends \Foo implements
 };
 ```
 
-### Closure declaration code ((go back)[(#7-closures-code-example]))
+### Closure declaration code ([go back](#7-closures-code-example))
 ```php
 // closure with arguments on single lines
 $foo = function ($arg1, $arg2) {
