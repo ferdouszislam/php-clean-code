@@ -5,36 +5,208 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
 
 ## Table of Contents
 
-- [Structure of a `.php` Files](#1-structure-of-a-php-files)
+- [Structure of a `.php` Files](#1-structure-of-a-php-files-code-example)
 - [Code Lines](#2-code-lines)
 - [Control Statements](#3-control-statements) 
-    - [`if-elseif-else`](#31-if-elseif-else)
-    - [`switch-case`](#32-switch-case)
-    - [`for`](#33-for)
-    - [`foreach`](#34-foreach)
-    - [`while`](#35-while)
-    - [`do-while`](#36-do-while)
-    - [`try-catch-finally`](#37-try-catch-finally)
+    - [`if-elseif-else`](#31-if-elseif-else-code-example)
+    - [`switch-case`](#32-switch-case-code-example)
+    - [`for`](#33-for-code-example)
+    - [`foreach`](#34-foreach-code-example)
+    - [`while`](#35-while-code-example)
+    - [`do-while`](#36-do-while-code-example)
+    - [`try-catch-finally`](#37-try-catch-finally-code-example)
 - [Operators](#4-operators)
-    - [Unary Operators](#41-unary-operators)
-    - [Binary Operators](#42-binary-operators)  
-- [Function](#5-function)
-- [Class](#6-class)
-    - [Class Properties/Variables](#61-class-propertiesvariables)
-    - [Class Methods/Functions](#62-class-methodsfunctions)
-    - [Invoking Class Methods/Functions](#63-invoking-class-methodsfunctions)
-    - [Class Traits](#64-class-traits)
-    - [Anonymous Classes](#65-anonymous-classes)
-- [Closures](#7-closures)
+    - [Unary Operators](#41-unary-operators-code-example)
+    - [Binary Operators](#42-binary-operators-code-example)
+    - [Ternary Operators](#43-ternary-operators-code-example)  
+- [Function](#5-function-function-declaration-code-example-function-invokation-code-example)
+- [Class](#6-class-code-example)
+    - [Class Properties/Variables](#61-class-propertiesvariables-code-example)
+    - [Class Methods/Functions](#62-class-methodsfunctions-code-example)
+    - [Invoking Class Methods/Functions](#63-invoking-class-methodsfunctions-code-example)
+    - [Class Traits](#64-class-traits-code-example)
+    - [Anonymous Classes](#65-anonymous-classes-code-example)
+- [Closures](#7-closures-code-example)
 - [Misc](#8-misc)
+- [Code Examples](#9-code-examples)
+    - [Code with side effects](#code-with-side-effects-go-back)
+    - [Sample `.php` file structure](#sample-php-file-structure-go-back)
+    - [`if-elseif-else` code](#if-elseif-else-code-go-back)
+    - [`switch-case` code](#switch-case-code-go-back)
+    - [`for` loops code](#for-loops-code-go-back)
+    - [`foreach` loops code](#foreach-loops-code-go-back)
+    - [`while` loops code](#while-loops-code-go-back)
+    - [`do-while` loops code](#do-while-loops-code-go-back)
+    - [`try-catch-finally` code](#try-catch-finally-code-go-back)
+    - [Unary operation code](#unary-operation-code-go-back)
+    - [Binary operators code](#binary-operators-code-go-back)
+    - [Ternary operators code](#ternary-operators-code-go-back)
+    - [Function declaration code](#function-declaration-code-go-back)
+    - [Function invokation code](#function-invokation-code-go-back)
+    - [Class definition code](#class-definition-code-go-back)
+    - [Class properties/variables declaration code](#class-propertiesvariables-declaration-code-go-back)
+    - [Class method/functions definition code](#class-methodfunctions-definition-code-go-back)
+    - [Class function/method invokation](#class-functionmethod-invokation-go-back)
+    - [Class traits declaration code](#class-traits-declaration-code-go-back)
+    - [Anonymous class declaration code](#anonymous-class-declaration-code-go-back)
+    - [Closure declaration code](#closure-declaration-code-go-back)
 
-## 1. Structure of a `.php` Files
+## 1. Structure of a `.php` Files ([code example](#sample-php-file-structure-go-back))
 
 - PHP code MUST use the long `<?php ?>` tags; it MUST NOT use the other tag variations.
 - The opening `<?php` tag MUST be on its own line with no other statements.
 - All `.php` files MUST end with a non-blank line.
 - The closing `?>` tag MUST be omitted from files containing only PHP.
-- A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. "Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file. Example .php file with side effects:
+- A file should declare new classes, functions, constants, etc. and cause no other side effects, or it SHOULD execute logic with side effects, but SHOULD NOT do both. "Side Effects" means execution of logic not directly related to declaring classes, functions, constants, etc. Meaning the logic that executes merely from including the file. Example .php file with side effects is given here: [code-with-side-effects](#code-with-side-effects-go-back).
+- The header of a PHP file may consist of a number of different blocks. If present, each of the blocks below MUST be separated by a single blank line, and MUST NOT contain a blank line in between. Each block MUST be in the order listed below, blocks that are not required may be omitted. Sample of an example php file is given here: [sample-php-file-structure](#sample-php-file-structure-go-back).
+    - Opening <?php tag.
+    - File-level docblock.
+    - One or more declare statements.
+    - The namespace declaration of the file.
+    - One or more class-based use import statements.
+    - One or more function-based use import statements.
+    - One or more constant-based use import statements.
+    - The remainder of the code in the file.
+
+## 2. Code Lines
+- Lines should not be more than 80 characters. Split lines if they exceed the limit.
+- No more than one statement per line.
+- No trailing white spaces at end of line.
+- Blank lines can be added to indicate block of code with certain purpose.
+- Must use 4 space indentation and not tabs.
+
+
+## 3. Control Statements
+Control structures refer to `conditional` (if-else, switch-case), `loop` (for, while etc.) and `exception` (try-catch).
+- Put one space after the control structure keyword.
+- No space after the opening parenthesis.
+- No space before the closing parenthesis.
+- Put one space between the closing parenthesis and the opening brace.
+- Indented the body inside control statements once.
+- Put the body on the next line after the opening brace.
+- Put closing brace on the next line after the body.
+
+### 3.1 `if`, `elseif`, `else` ([code example](#if-elseif-else-code-go-back))
+`if` block structures look like the following: [code example](#if-elseif-else-code-go-back). Note the placement of parentheses, spaces, and braces; and that `else` and `elseif` are on the same line as the closing brace from the earlier body. Multiple Expression can be split into separate lines as shown in the code example.
+
+
+### 3.2 `switch-case` ([code example](#switch-case-code-go-back))
+A `switch` structure looks like the following: [code example](#switch-case-code-go-back). Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as `// no break` when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown.
+
+
+### 3.3 `for` ([code example](#for-loops-code-go-back))
+`for` statements look like the following: [code example](#for-loops-code-go-back). Note the placement of parentheses, spaces, and braces. Expressions inside the `for` statement may be split in multiple lines as shown.
+
+
+### 3.4 `foreach` ([code example](#foreach-loops-code-go-back))
+`foreach` statements look like the following: [code example](#foreach-loops-code-go-back). Note the placement of parentheses, spaces, and braces.
+
+
+### 3.5 `while` ([code example](#while-loops-code-go-back))
+`while` statements look like the following: [code example](#while-loops-code-go-back). Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
+
+### 3.6 `do-while` ([code example](#do-while-loops-code-go-back))
+`do-while` statements are similar to `while` as follows: [code example](#do-while-loops-code-go-back).
+
+### 3.7 `try`, `catch`, `finally` ([code example](#try-catch-finally-code-go-back))
+`try-catch-finally` blocks look like the following: [code example](#try-catch-finally-code-go-back). Note the placement of parentheses, spaces, and braces.
+
+
+## 4. Operators
+
+### 4.1 Unary Operators ([code example](#unary-operation-code-go-back))
+- The increment/decrement operators MUST NOT have any space between the operator and operand.
+- Type casting operators MUST NOT have any space within the parentheses.
+
+### 4.2 Binary Operators ([code example](#binary-operators-code-go-back))
+- All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space.
+
+### 4.3 Ternary Operators ([code example](#ternary-operators-code-go-back))
+- The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters.
+
+
+## 5. Function ([Function declaration code example](#function-declaration-code-go-back), [Function invokation code example](#function-invokation-code-go-back))
+
+- Name should be in camelCase.
+- Opening and closing braces must be on their own line
+- Arguments with default values go last.
+- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.  
+- When specifying return types, put one space after and no space before the colon. 
+- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
+- For nullable type declaration add `?` before type keyword without any space
+- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation on all arguments.
+- A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
+
+
+## 6. Class ([code example](#class-definition-code-go-back))
+The term "`class`" refers to all `class`, `interface`, and `trait` used in php.
+
+- Keep classes in a `.php` file by itself, named same as the class name.
+- Class names should be in `PascalCase`.
+- Opening and closing brace must be on their own separate line.
+- Keep `extends` and `implements` on the same line as class name. Multiple `implements` can be spread accross multiple lines, with one interface per line.
+- Put `abstract`, `final` keywords before and `static` keyword after visibility declaration keywords.
+
+### 6.1 Class properties/variables ([code example](#class-propertiesvariables-declaration-code-go-back))
+- Property/variable names should be in `camelCase`.
+- Visibility (`private`, `public`, `protected`) MUST be declared on all properties, including constants (PHP 7.1 or later).
+- The `var` keyword MUST NOT be used to declare a property.
+- One property declaration per statement.
+- Class constants MUST be declared in all upper case with underscore separators, and include visibility keyword if supported
+
+### 6.2 Class methods/functions ([code example](#class-methodfunctions-definition-code-go-back))
+- Method names must be in either `camelCase`.
+- Visibility (`private`, `public`, `protected`) MUST be declared on all methods.
+- No space between the opening and closing paranthesis.
+- Opening and closing braces must be on their own line.
+- In the argument list put one space after commas and no space before.
+- Arguments with default values go last.
+- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
+- In nullable type declarations, don't put any space between question mark and type.
+- Put `abstract` and `final` declarations before the visibility declaration and `static` after.
+
+### 6.3 Invoking Class Methods/Functions ([code example](#class-functionmethod-invokation-go-back))
+- No space between the invoking method or function name and the opening parenthesis or after the opening parenthesis or before the closing parenthesis. 
+- Give space after commas and not before.
+- Argument lists may be split across multiple lines, where each subsequent line is indented once. When doing so, put the first item on the list on the next line, and put only one argument per line. A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
+
+### 6.4 Class Traits ([code example](#class-traits-declaration-code-go-back))
+- The `use` keyword used inside the classes to implement traits MUST be declared on the next line after the opening brace. Each `use` trait statement should be on its own line and have a blank line if there are other elements of the class afterwards.
+- When using the `insteadof` and `as` operators they must be used as shown in [code example](#class-traits-declaration-code-go-back) taking note of indentation, spacing, and new lines.
+
+### 6.5 Anonymous classes ([code example](#anonymous-class-declaration-code-go-back))
+- Anonymous classes must be declared as shown in [code example](#anonymous-class-declaration-code-go-back) taking note of indentation, spacing, and new lines.
+
+## 7. Closures ([code example](#closure-declaration-code-go-back))
+- Put a space after the `function` keyword, and a space before and after the `use` keyword.
+- Put the opening brace on the same line, and the closing brace on the next line after the body.
+- No space after the opening parenthesis of the argument list or variable list, and before the closing parenthesis of the argument list or variable list.
+- Put space after commas inside the argument and/or variable list and not before.
+- Closure arguments with default values MUST go at the end of the argument list.
+- If a return type is present, it MUST follow the same rules as with normal functions and methods; if the `use` keyword is present, put the colon after the `use` list's closing parentheses with no spaces in between. 
+- Argument lists and variable lists may be split across multiple lines, with single indentation on each line. When doing so, put the first item in the list on the next line, and put only one argument or variable per line.
+- When the ending list (arguments or variables) is split across multiple lines, put the closing parenthesis and opening brace together on their own line with one space between them.
+
+
+## 8. Misc
+- Short form of type keywords MUST be used i.e. `bool` instead of `boolean`, `int` instead of `integer` etc.
+- Maximum allowed depth for Compound namespaces is no more than two.
+```php
+use Vendor\Package\SomeNamespace\{
+    SubnamespaceOne\ClassB,
+    ClassZ,
+};
+use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
+```
+- Block declare statements are allowed and MUST be formatted as below. Note position of braces and spacing.
+```php
+declare(ticks=1) {
+    // some code
+}
+```
+
+# 9. Code Examples
+### Code with side effects. ([go back](#1-structure-of-a-php-files))
 ```php
 <?php
 // the codes below would run just by including the file on other php scripts
@@ -45,17 +217,8 @@ ini_set('error_reporting', E_ALL);
 // side effect: generates output
 echo "<html>\n";
 ```
-- The header of a PHP file may consist of a number of different blocks. If present, each of the blocks below MUST be separated by a single blank line, and MUST NOT contain a blank line in between. Each block MUST be in the order listed below, blocks that are not required may be omitted.
-    - Opening <?php tag.
-    - File-level docblock.
-    - One or more declare statements.
-    - The namespace declaration of the file.
-    - One or more class-based use import statements.
-    - One or more function-based use import statements.
-    - One or more constant-based use import statements.
-    - The remainder of the code in the file.
 
-Example of a sample .php file is given below:
+### Sample `.php` File Structure ([go back](#1-structure-of-a-php-files))
 ```php
 <?php
 
@@ -86,27 +249,7 @@ class FooBar
 }
 ```
 
-## 2. Code Lines
-- Lines should not be more than 80 characters. Split lines if they exceed the limit.
-- No more than one statement per line.
-- No trailing white spaces at end of line.
-- Blank lines can be added to indicate block of code with certain purpose.
-- Must use 4 space indentation and not tabs.
-
-
-## 3. Control Statements
-Control structures refer to `conditional` (if-else, switch-case), `loop` (for, while etc.) and `exception` (try-catch).
-- Put one space after the control structure keyword.
-- No space after the opening parenthesis.
-- No space before the closing parenthesis.
-- Put one space between the closing parenthesis and the opening brace.
-- Indented the body inside control statements once.
-- Put the body on the next line after the opening brace.
-- Put closing brace on the next line after the body.
-
-### 3.1 `if`, `elseif`, `else`
-`if` block structures look like the following. Note the placement of parentheses, spaces, and braces; and that `else` and `elseif` are on the same line as the closing brace from the earlier body. Multiple Expression can be split into separate lines as shown.
-
+### `if-elseif-else` code ([go back](#31-if-elseif-else-code-example))
 ```php
 // with expression on single line
 if ($expr1) {
@@ -131,8 +274,7 @@ if (
 }
 ```
 
-### 3.2 `switch-case`
-A `switch` structure looks like the following. Note the placement of parentheses, spaces, and braces. Indent the `case` statement once from switch, and indent `break` keyword (or other terminating keywords) at the same level as the `case` body. There MUST be a comment such as `// no break` when fall-through is intentional in a non-empty case body. Expressions inside the `switch` statement may be split in multiple lines as shown..
+### `switch-case` code ([go back](#32-switch-case-code-example))
 ```php
 // with expressions on single line
 switch ($expr) {
@@ -161,8 +303,7 @@ switch (
 }
 ```
 
-### 3.3 `for`
-`for` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `for` statement may be split in multiple lines as shown.
+### `for` loops code ([go back](#33-for-code-example)) 
 ```php
 // with expressions on single line
 for ($i = 0; $i < 10; $i++) {
@@ -179,16 +320,14 @@ for (
 }
 ```
 
-### 3.4 `foreach`
-`foreach` statements look like the following. Note the placement of parentheses, spaces, and braces.
+### `foreach` loops code ([go back](#34-foreach-code-example))
 ```php
 foreach ($iterable as $key => $value) {
     // foreach body
 }
 ```
 
-### 3.5 `while`
-`while` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
+### `while` loops code ([go back](#35-while-code-example))
 ```php
 // with expressions on single line
 while ($expr) {
@@ -204,8 +343,7 @@ while (
 }
 ```
 
-### 3.6 `do-while`
-`do-while` statements are similar to `while` as follows.
+### `do-while` loops code ([go back](#36-do-while-code-example))
 ```php
 // with expression on single line
 do {
@@ -221,8 +359,7 @@ do {
 );
 ```
 
-### 3.7 `try`, `catch`, `finally`
-`try-catch-finally` blocks look like the following. Note the placement of parentheses, spaces, and braces.
+### `try-catch-finally` code ([go back](#37-try-catch-finally-code-example))
 ```php
 try {
     // try body
@@ -235,22 +372,17 @@ try {
 }
 ```
 
-
-## 4. Operators
-
-### 4.1 Unary Operators
-- The increment/decrement operators MUST NOT have any space between the operator and operand.
+### Unary operation code ([go back](#41-unary-operators-code-example))
 ```php
+// increment/decrement
 $i++;
 ++$j;
-```
-- Type casting operators MUST NOT have any space within the parentheses.
-```php
+
+// type casting
 $intValue = (int) $input;
 ```
 
-### 4.2 Binary Operators
-- All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space.
+### Binary operators code ([go back](#42-binary-operators-code-example))
 ```php
 if ($a === $b) {
     $foo = $bar ?? $a ?? $b;
@@ -259,22 +391,12 @@ if ($a === $b) {
 }
 ```
 
-### 4.3 Ternary Operators
-- The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters.
+### Ternary operators code ([go back](#43-ternary-operators-code-example))
 ```php
 $variable = $foo ? 'foo' : 'bar';
 ```
 
-
-## 5. Function
-
-- Name should be in camelCase.
-- Opening and closing braces must be on their own line
-- Arguments with default values go last.
-- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.  
-- When specifying return types, put one space after and no space before the colon. 
-- Return type should be on the same line as function arguments. If arguments are on multi-line put the return type on the same line as ending parenthesis and starting brace of the function. 
-- For nullable type declaration add `?` before type keyword without any space
+### Function declaration code ([go back](#5-function-function-declaration-code-example-function-invokation-code-example))
 ```php
 // function with arguments in single line and no return type
 function fooBarBaz($arg1, &$arg2, $arg3 = [])
@@ -312,8 +434,8 @@ function functionWithNullableType(?string $arg1): ?string
     return 'foo';
 }
 ```
-- When invoking functions with multiline arguments, put the first argument on a separate line and give single indentation on all arguments.
-- A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
+
+### Function invokation code ([go back](#5-function-function-declaration-code-example-function-invokation-code-example))
 ```php
 // function invocation with single line arguments
 bar($arg2, $arg3);
@@ -331,14 +453,7 @@ somefunction($foo, $bar, [
 ], $baz);
 ```
 
-
-## 6. Class
-The term "`class`" refers to all `class`, `interface`, and `trait` used in php.
-
-- Keep classes in a `.php` file by itself, named same as the class name.
-- Class names should be in `PascalCase`.
-- Opening and closing brace must be on their own separate line.
-- Keep `extends` and `implements` on the same line as class name. Multiple `implements` can be spread accross multiple lines, with one interface per line.  
+### Class definition code ([go back](#6-class-code-example))
 ```php
 // class with extends and implements on same line
 class ClassName extends ParentClass implements \ArrayAccess, \Countable
@@ -355,9 +470,8 @@ class ClassName extends ParentClass implements
 {
     // constants, properties, methods
 }
-```
-- Put `abstract`, `final` keywords before and `static` keyword after visibility declaration keywords.
-```php
+
+// class with abstract, final, static, visibility keywords
 abstract class ClassName
 {
     protected static $foo;
@@ -371,12 +485,7 @@ abstract class ClassName
 }
 ```
 
-### 6.1 Class properties/variables
-- Property/variable names should be in `camelCase`.
-- Visibility (`private`, `public`, `protected`) MUST be declared on all properties, including constants (PHP 7.1 or later).
-- The `var` keyword MUST NOT be used to declare a property.
-- One property declaration per statement.
-- Class constants MUST be declared in all upper case with underscore separators, and include visibility keyword if supported.
+### Class properties/variables declaration code ([go back](#61-class-propertiesvariables-code-example))
 ```php
 class ClassName
 {
@@ -386,16 +495,7 @@ class ClassName
 }
 ```
 
-### 6.2 Class methods/functions
-- Method names must be in either `camelCase`.
-- Visibility (`private`, `public`, `protected`) MUST be declared on all methods.
-- No space between the opening and closing paranthesis.
-- Opening and closing braces must be on their own line.
-- In the argument list put one space after commas and no space before.
-- Arguments with default values go last.
-- When splitting arguments in multiple lines, put the first argument on a new line and keep closing paranthesis and the starting brace on the separate, same line.
-- In nullable type declarations, don't put any space between question mark and type.
-- Put `abstract` and `final` declarations before the visibility declaration and `static` after.
+### Class method/functions definition code ((go back)[#62-class-methodsfunctions-code-example]))
 ```php
 abstract class ClassName
 {
@@ -446,10 +546,7 @@ abstract class ClassName
 }
 ```
 
-### 6.3 Invoking Class Methods/Functions
-- No space between the invoking method or function name and the opening parenthesis or after the opening parenthesis or before the closing parenthesis. 
-- Give space after commas and not before.
-- Argument lists may be split across multiple lines, where each subsequent line is indented once. When doing so, put the first item on the list on the next line, and put only one argument per line. A single argument might also be split across multiple lines (as might be the case with an anonymous function or array) as shown.
+### Class function/method invokation ((go back)[#63-invoking-class-methodsfunctions-code-example]))
 ```php
 // invoking non-static method
 $foo->barA($arg1);
@@ -470,17 +567,7 @@ $foo->barD($foo, $bar, [
 ], $baz);
 ```
 
-### 6.4 Class Traits
-- The `use` keyword used inside the classes to implement traits MUST be declared on the next line after the opening brace. Each `use` trait statement should be on its own line and have a blank line if there are other elements of the class afterwards.
-```php
-class ClassName
-{
-    use FirstTrait;
-
-    private $property;
-}
-```
-- When using the `insteadof` and `as` operators they must be used as follows taking note of indentation, spacing, and new lines.
+### Class traits declaration code ((go back)[#64-class-traits-code-example]))
 ```php
 class Talker
 {
@@ -492,11 +579,12 @@ class Talker
         B::bigTalk insteadof C;
         C::mediumTalk as FooBar;
     }
+
+    private $property;
 }
 ```
 
-### 6.5 Anonymous classes
-- Anonymous classes must be declared as follows taking note of indentation, spacing, and new lines.
+### Anonymous class declaration code ((go back)[#65-anonymous-classes-code-example]))
 ```php
 // Brace on the same line, with single implement
 $instance = new class extends \Foo implements \HandleableInterface {
@@ -513,30 +601,23 @@ $instance = new class extends \Foo implements
 };
 ```
 
-## 7. Closures
-- Put a space after the `function` keyword, and a space before and after the `use` keyword.
-- Put the opening brace on the same line, and the closing brace on the next line after the body.
-- No space after the opening parenthesis of the argument list or variable list, and before the closing parenthesis of the argument list or variable list.
-- Put space after commas inside the argument and/or variable list and not before.
-- Closure arguments with default values MUST go at the end of the argument list.
-- If a return type is present, it MUST follow the same rules as with normal functions and methods; if the `use` keyword is present, put the colon after the `use` list's closing parentheses with no spaces in between.
+### Closure declaration code ((go back)[(#7-closures-code-example]))
 ```php
+// closure with arguments on single lines
 $foo = function ($arg1, $arg2) {
     // body
 };
 
+// closure with arguments, variables on single line
 $bar = function ($arg1, $arg2) use ($var1, $var2) {
     // body
 };
 
+// closure with arguments, variables, return type on single line
 $baz = function ($arg1, $arg2) use ($var1, $var2): bool {
     // body
 };
-```
 
-- Argument lists and variable lists may be split across multiple lines, with single indentation on each line. When doing so, put the first item in the list on the next line, and put only one argument or variable per line.
-- When the ending list (arguments or variables) is split across multiple lines, put the closing parenthesis and opening brace together on their own line with one space between them.
-```php
 // closure with arguments on multiple lines and no variables
 $longArgs_noVars = function (
     $longArgument,
@@ -577,6 +658,7 @@ $longArgs_shortVars = function (
    // body
 };
 
+// closure with arguments on single line and variables on multiple lines
 $shortArgs_longVars = function ($arg) use (
     $longVar1,
     $longerVar2,
@@ -584,9 +666,8 @@ $shortArgs_longVars = function ($arg) use (
 ) {
    // body
 };
-```
-- Defining closures on function invocations
-```php
+
+// defining closures on function invocations
 $foo->bar(
     $arg1,
     function ($arg2) use ($var1) {
@@ -594,22 +675,4 @@ $foo->bar(
     },
     $arg3
 );
-```
-
-
-## 8. Misc
-- Short form of type keywords MUST be used i.e. `bool` instead of `boolean`, `int` instead of `integer` etc.
-- Maximum allowed depth for Compound namespaces is no more than two.
-```php
-use Vendor\Package\SomeNamespace\{
-    SubnamespaceOne\ClassB,
-    ClassZ,
-};
-use Vendor\Package\SomeNamespace\AnotherNamespace\ClassA;
-```
-- Block declare statements are allowed and MUST be formatted as below. Note position of braces and spacing.
-```php
-declare(ticks=1) {
-    // some code
-}
 ```
