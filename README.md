@@ -118,10 +118,10 @@ A `switch` structure looks like the following: [code example](#switch-case-code-
 - The increment/decrement operators MUST NOT have any space between the operator and operand.
 - Type casting operators MUST NOT have any space within the parentheses.
 
-### 4.2 Binary Operators ([Code example](#binary-operators-code-go-back))
+### 4.2 Binary Operators ([code example](#binary-operators-code-go-back))
 - All binary arithmetic, comparison, assignment, bitwise, logical, string, and type operators MUST be preceded and followed by at least one space.
 
-### 4.3 Ternary Operators ([Code example](#ternary-operators-code-go-back))
+### 4.3 Ternary Operators ([code example](#ternary-operators-code-go-back))
 - The conditional operator, also known simply as the ternary operator, MUST be preceded and followed by at least one space around both the `?` and `:` characters.
 
 
