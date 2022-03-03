@@ -34,6 +34,9 @@ The coding conventions mentioned below were summarized from **[PHP Standard Reco
     - [`switch-case` code](#switch-case-code-go-back)
     - [`for` loops code](#for-loops-code-go-back)
     - [`foreach` loops code](#foreach-loops-code-go-back)
+    - [`while` loops code](#while-loops-code-go-back)
+    - [`do-while` loops code](#do-while-loops-code-go-back)
+    - [`try-catch-finally` code](#try-catch-finally-code-go-back)
 
 ## 1. Structure of a `.php` Files
 
@@ -87,52 +90,13 @@ A `switch` structure looks like the following: [switch-case code](#switch-case-c
 
 
 ### 3.5 `while`
-`while` statements look like the following. Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
-```php
-// with expressions on single line
-while ($expr) {
-    // structure body
-}
-
-// with expression on multi-line
-while (
-    $expr1
-    && $expr2
-) {
-    // structure body
-}
-```
+`while` statements look like the following: [`while` loops code](#while-loops-code-go-back). Note the placement of parentheses, spaces, and braces. Expressions inside the `while` statement may be split in multiple lines as shown.
 
 ### 3.6 `do-while`
-`do-while` statements are similar to `while` as follows.
-```php
-// with expression on single line
-do {
-    // structure body;
-} while ($expr);
-
-// with expression on multi-line
-do {
-    // structure body;
-} while (
-    $expr1
-    && $expr2
-);
-```
+`do-while` statements are similar to `while` as follows: [`do-while` loops code](#do-while-loops-code-go-back).
 
 ### 3.7 `try`, `catch`, `finally`
-`try-catch-finally` blocks look like the following. Note the placement of parentheses, spaces, and braces.
-```php
-try {
-    // try body
-} catch (FirstThrowableType $e) {
-    // catch body
-} catch (OtherThrowableType | AnotherThrowableType $e) {
-    // catch body
-} finally {
-    // finally body
-}
-```
+`try-catch-finally` blocks look like the following: [`try-catch-finally` code](#try-catch-finally-code-go-back). Note the placement of parentheses, spaces, and braces.
 
 
 ## 4. Operators
@@ -632,5 +596,50 @@ for (
 ```php
 foreach ($iterable as $key => $value) {
     // foreach body
+}
+```
+
+### `while` loops code ([go back](#35-while))
+```php
+// with expressions on single line
+while ($expr) {
+    // structure body
+}
+
+// with expression on multi-line
+while (
+    $expr1
+    && $expr2
+) {
+    // structure body
+}
+```
+
+### `do-while` loops code ([go back](#36-do-while))
+```php
+// with expression on single line
+do {
+    // structure body;
+} while ($expr);
+
+// with expression on multi-line
+do {
+    // structure body;
+} while (
+    $expr1
+    && $expr2
+);
+```
+
+### `try-catch-finally` code ([go back](#37try-catch-finally))
+```php
+try {
+    // try body
+} catch (FirstThrowableType $e) {
+    // catch body
+} catch (OtherThrowableType | AnotherThrowableType $e) {
+    // catch body
+} finally {
+    // finally body
 }
 ```
